@@ -89,6 +89,14 @@ public class DefaultProviderTest
         assertEquals(uninitializedBooleanValue, defaultProvider.getDefaultValue(method));
     }
 
+    @Test
+    public void testGetDefaultValue_object()
+    {
+        Method method = ObjectObject.class.getMethods()[0];
+
+        assertEquals(null, defaultProvider.getDefaultValue(method));
+    }
+    
     private interface BooleanObject
     {
         boolean getValue();
@@ -127,5 +135,10 @@ public class DefaultProviderTest
     private interface ByteObject
     {
         byte getValue();
+    }
+    
+    private interface ObjectObject
+    {
+        Object getValue();
     }
 }
