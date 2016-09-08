@@ -16,10 +16,11 @@ import com.singleton.dynamic.builder.annotation.Required;
  * @author PK030071
  *
  */
+@SuppressWarnings({ "javadoc" })
 public class RequiredMethodTest
 {
     private final DynamicBuilderFactory factory = new DynamicBuilderFactory();
-    
+
     @Test
     public void testBuilderMethod_IsRequired()
     {
@@ -30,7 +31,8 @@ public class RequiredMethodTest
         }
         catch (IllegalStateException e)
         {
-            assertThat(e.getMessage(), is("intValue was not called on this builder class "+RequiredMethodObjectBuilder.class.getName()+"."));
+            assertThat(e.getMessage(), is("intValue was not called on this builder class "
+                    + RequiredMethodObjectBuilder.class.getName() + "."));
         }
     }
 
@@ -38,7 +40,7 @@ public class RequiredMethodTest
     {
 
         RequiredMethodObjectBuilder stringValue(String value);
-        
+
         @Required
         RequiredMethodObjectBuilder intValue(int value);
 

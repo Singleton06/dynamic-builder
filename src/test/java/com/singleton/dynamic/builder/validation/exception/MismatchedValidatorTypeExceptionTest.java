@@ -10,13 +10,14 @@ import org.junit.Test;
  * 
  * @author Dustin Singleton
  */
+@SuppressWarnings({ "javadoc" })
 public class MismatchedValidatorTypeExceptionTest
 {
     @Test
     public void testConstructor()
     {
         MismatchedValidatorTypeException exception = new MismatchedValidatorTypeException("message");
-        
+
         assertThat(exception.getMessage(), is("message"));
     }
 }

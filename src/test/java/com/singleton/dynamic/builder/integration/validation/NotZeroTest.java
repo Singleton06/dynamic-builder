@@ -17,6 +17,7 @@ import com.singleton.dynamic.builder.annotation.Not;
  * @author PK030071
  *
  */
+@SuppressWarnings({ "javadoc" })
 public class NotZeroTest
 {
     private final DynamicBuilderFactory factory = new DynamicBuilderFactory();
