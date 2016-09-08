@@ -1,9 +1,11 @@
 package com.singleton.dynamic.builder.internal.valueprovider;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.Date;
 
 import com.singleton.dynamic.builder.annotation.Immutable;
+import com.singleton.dynamic.builder.internal.common.CollectionUtil;
 import com.singleton.dynamic.builder.internal.proxy.ProxiedValue;
 
 /**
@@ -43,14 +45,29 @@ public class BuiltObjectValueProvider
         {
             if (singleAnnotation.annotationType().equals(Immutable.class))
             {
-                Object valueToReturn = proxiedValue.getValue();
-                if (Date.class.equals(valueToReturn.getClass()))
+                Object immutableValue = handleImmutableArgument(proxiedValue);
+                if (immutableValue != null)
                 {
-                    return new Date(((Date) valueToReturn).getTime());
+                    return immutableValue;
                 }
             }
         }
 
         return proxiedValue.getValue();
+    }
+
+    private Object handleImmutableArgument(ProxiedValue proxiedValue)
+    {
+        Class<?> parameterType = proxiedValue.getBuilderMethod().getParameterTypes()[0];
+        if (Date.class.equals(parameterType))
+        {
+            return new Date(((Date) proxiedValue.getValue()).getTime());
+        }
+        if (Collection.class.equals(parameterType))
+        {
+            return CollectionUtil.copyCollection((Collection<?>) proxiedValue.getValue());
+        }
+
+        return null;
     }
 }

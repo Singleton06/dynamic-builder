@@ -2,9 +2,11 @@ package com.singleton.dynamic.builder.internal.valueprovider;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Date;
 
 import com.singleton.dynamic.builder.annotation.Immutable;
+import com.singleton.dynamic.builder.internal.common.CollectionUtil;
 
 /**
  * Class that will inspect the method that is called and determine what all data massaging and other work needs to be
@@ -44,13 +46,29 @@ public class BuilderValueProvider
         {
             if (singleAnnotation.annotationType().equals(Immutable.class))
             {
-                if (Date.class.equals(argument.getClass()))
+                Object returnValue = getImmutableReturnValue(method, argument);
+                if (returnValue != null)
                 {
-                    return new Date(((Date) argument).getTime());
+                    return returnValue;
                 }
             }
         }
 
         return argument;
+    }
+
+    private Object getImmutableReturnValue(Method method, Object argument)
+    {
+        Class<?> parameterType = method.getParameterTypes()[0];
+        if (Date.class.equals(parameterType))
+        {
+            return new Date(((Date) argument).getTime());
+        }
+        if (Collection.class.equals(parameterType))
+        {
+            return CollectionUtil.copyCollection((Collection<?>) argument);
+        }
+
+        return null;
     }
 }
