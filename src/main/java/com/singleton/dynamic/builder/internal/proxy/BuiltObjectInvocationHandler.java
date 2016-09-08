@@ -7,11 +7,25 @@ import java.util.Map;
 
 import com.singleton.dynamic.builder.defaults.DefaultProvider;
 
+/**
+ * <p>
+ * Invocation handler for any built object interfaces that are provided. Basically this class will be responsible for
+ * handling any calls that are made on methods that appear on the built object's interface.
+ * </p>
+ * 
+ * @author Dustin Singleton
+ */
 public class BuiltObjectInvocationHandler implements InvocationHandler
 {
     private final DefaultProvider defaultProvider = new DefaultProvider();
     private final Map<String, Object> valueMap;
 
+    /**
+     * Constructs a new {@link BuiltObjectInvocationHandler} with the provided {@code valueMap}.
+     * 
+     * @param valueMap
+     *            The map of values keyed by the method names.
+     */
     public BuiltObjectInvocationHandler(Map<String, Object> valueMap)
     {
         this.valueMap = convertToGetterMethod(valueMap);
@@ -29,6 +43,7 @@ public class BuiltObjectInvocationHandler implements InvocationHandler
         return convertedMap;
     }
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
         if (valueMap.containsKey(method.getName()))

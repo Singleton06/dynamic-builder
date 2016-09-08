@@ -10,10 +10,19 @@ import java.util.Map;
 import com.singleton.dynamic.builder.annotation.Not;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
+/**
+ * <p>
+ * Invocation handler for any builder interfaces that are provided. Basically this class will be responsible for
+ * handling any calls that are made on methods that appear on the builder's interface.
+ * </p>
+ * 
+ * @author Dustin Singleton
+ */
 public class BuilderInvocationHandler implements InvocationHandler
 {
     private final Map<String, Object> valueMap = new HashMap<String, Object>();
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
     {
         if (!method.getName().equals("build") && args != null && args.length == 1)
@@ -36,7 +45,6 @@ public class BuilderInvocationHandler implements InvocationHandler
 
     private void performValidation(Method method, Object parameterValue)
     {
-        // pull off the annotations for the first parameter, given that
         for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
         {
             if (singleAnnotation.annotationType().equals(Not.class))

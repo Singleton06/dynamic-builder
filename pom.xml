@@ -8,8 +8,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jacoco.plugin.version>0.7.7.201606060606</jacoco.plugin.version>
+        <jdk.version>1.6</jdk.version>
     </properties>
-    
+
     <ciManagement>
         <system>Travis CI</system>
         <url>https://travis-ci.org/dynamic-builder/dynamic-builder</url>
@@ -32,7 +33,6 @@
     </dependencies>
 
     <build>
-        
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -48,9 +48,19 @@
                 </executions>
             </plugin>
             <plugin>
-              <groupId>org.eluder.coveralls</groupId>
-              <artifactId>coveralls-maven-plugin</artifactId>
-              <version>4.2.0</version>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.2.0</version>
+            </plugin>
+           <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -62,12 +72,12 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.plugin.version}</version>
                 <reportSets>
-                  <reportSet>
-                    <reports>
-                      <!-- select non-aggregate reports -->
-                      <report>report</report>
-                    </reports>
-                  </reportSet>
+                    <reportSet>
+                        <reports>
+                            <!-- select non-aggregate reports -->
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
                 </reportSets>
             </plugin>
         </plugins>
