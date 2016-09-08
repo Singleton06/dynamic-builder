@@ -2,7 +2,9 @@ package com.singleton.dynamic.builder.internal.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Utility class for performing common functions with {@link Collection}s.
@@ -55,5 +57,28 @@ public class CollectionUtil
         }
 
         return new ArrayList<T>(listToCopy);
+    }
+
+    /**
+     * <p>
+     * Copies the specified set using an unspecified implementation of {@link Set}.
+     * </p>
+     * <p>
+     * <strong>Note: </strong> this will very likely change the internal implementation of the {@link Set}.
+     * </p>
+     * 
+     * @param setToCopy
+     *            The set that will be copied.
+     * @return the resulting set, which will have all values from the {@code setToCopy}, but could be of a different
+     *         implementation.
+     */
+    public static <T> Set<T> copySet(Set<T> setToCopy)
+    {
+        if (setToCopy == null)
+        {
+            return new HashSet<T>(0);
+        }
+
+        return new HashSet<T>(setToCopy);
     }
 }

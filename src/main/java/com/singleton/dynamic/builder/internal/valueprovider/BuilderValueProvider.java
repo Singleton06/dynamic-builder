@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.singleton.dynamic.builder.annotation.Immutable;
 import com.singleton.dynamic.builder.internal.common.CollectionUtil;
@@ -72,6 +73,10 @@ public class BuilderValueProvider
         if (List.class.equals(parameterType))
         {
             return CollectionUtil.copyList((List<?>) argument);
+        }
+        if (Set.class.equals(parameterType))
+        {
+            return CollectionUtil.copySet((Set<?>) argument);
         }
 
         return null;

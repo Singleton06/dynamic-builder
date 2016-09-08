@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.singleton.dynamic.builder.annotation.Immutable;
 import com.singleton.dynamic.builder.internal.common.CollectionUtil;
@@ -71,6 +72,10 @@ public class BuiltObjectValueProvider
         if (List.class.equals(parameterType))
         {
             return CollectionUtil.copyList((List<?>) proxiedValue.getValue());
+        }
+        if (Set.class.equals(parameterType))
+        {
+            return CollectionUtil.copySet((Set<?>) proxiedValue.getValue());
         }
 
         return null;

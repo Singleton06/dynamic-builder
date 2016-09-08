@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -46,6 +48,12 @@ public class BuiltObjectValueProviderTest
 
     private final String immutableListValueMethodName = "immutableListValue";
     private final Method immutableListValueMethod = getMethod(immutableListValueMethodName, List.class);
+
+    private final String mutableSetValueMethodName = "mutableSetValue";
+    private final Method mutableSetValueMethod = getMethod(mutableSetValueMethodName, Set.class);
+
+    private final String immutableSetValueMethodName = "immutableSetValue";
+    private final Method immutableSetValueMethod = getMethod(immutableSetValueMethodName, Set.class);
 
     private final String immutableStringValueMethodName = "immutableStringValue";
     private final Method immutableStringValueMethod = getMethod(immutableStringValueMethodName, String.class);
@@ -196,6 +204,58 @@ public class BuiltObjectValueProviderTest
         assertThat(value, is(nullValue()));
     }
 
+    // Suppression added because of the lack of type safety that the handlers have
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetValue_immutableSet()
+    {
+        Set<String> originalSet = new HashSet<String>(Arrays.asList("String1", "String2"));
+        Set<String> setToModify = new HashSet<String>(originalSet);
+        ProxiedValue proxiedValue = new ProxiedValue(immutableSetValueMethod, setToModify);
+
+        Object value = valueProvider.getValue(proxiedValue);
+        Iterator<String> iterator = setToModify.iterator();
+        iterator.next();
+        iterator.remove();
+
+        assertThat((Set<String>) value, is(originalSet));
+    }
+
+    @Test
+    public void testGetValue_nullImmutableSet()
+    {
+        Object value = valueProvider.getValue(new ProxiedValue(immutableSetValueMethod, null));
+
+        assertThat(value, is(nullValue()));
+    }
+
+    // Suppression added because of the lack of type safety that the handlers have
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetValue_mutableSet()
+    {
+        Set<String> originalSet = new HashSet<String>(Arrays.asList("String1", "String2"));
+        Set<String> setToModify = new HashSet<String>(originalSet);
+        ProxiedValue proxiedValue = new ProxiedValue(mutableSetValueMethod, setToModify);
+
+        Object value = valueProvider.getValue(proxiedValue);
+        Iterator<String> iterator = setToModify.iterator();
+        iterator.next();
+        iterator.remove();
+
+        assertThat((Set<String>) value, is(setToModify));
+    }
+
+    @Test
+    public void testGetValue_nullMutableSet()
+    {
+        ProxiedValue proxiedValue = new ProxiedValue(mutableSetValueMethod, null);
+
+        Object value = valueProvider.getValue(proxiedValue);
+
+        assertThat(value, is(nullValue()));
+    }
+
     /**
      * This test is to ensure that in situations where the type that is declared to be immutable is not technically
      * supported, that the argument is just returned in that situation.
@@ -221,6 +281,10 @@ public class BuiltObjectValueProviderTest
         TestBuilderInterface mutableListValue(List<String> list);
 
         TestBuilderInterface immutableListValue(@Immutable List<String> list);
+
+        TestBuilderInterface mutableSetValue(Set<String> set);
+
+        TestBuilderInterface immutableSetValue(@Immutable Set<String> set);
 
         TestBuilderInterface immutableStringValue(@Immutable String string);
     }
