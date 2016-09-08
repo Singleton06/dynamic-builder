@@ -70,6 +70,48 @@ public enum NotParameterValidator
                 }
             }
         }
+    },
+
+    NEGATIVE
+    {
+        @Override
+        public void validate(Object objectToValidate, Method method)
+        {
+            if (objectToValidate == null)
+            {
+                return;
+            }
+
+            if (Number.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((Number) objectToValidate).doubleValue() < 0)
+                {
+                    throw new IllegalArgumentException(
+                            method.getName() + " was provided negative, but non negative value is required");
+                }
+            }
+        }
+    },
+
+    ZERO
+    {
+        @Override
+        public void validate(Object objectToValidate, Method method)
+        {
+            if (objectToValidate == null)
+            {
+                return;
+            }
+
+            if (Number.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((Number) objectToValidate).doubleValue() == 0)
+                {
+                    throw new IllegalArgumentException(method.getName()
+                            + " was provided zero, but non zero value is required");
+                }
+            }
+        }
     };
 
     /**
