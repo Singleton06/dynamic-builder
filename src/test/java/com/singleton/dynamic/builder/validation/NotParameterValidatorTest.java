@@ -159,6 +159,35 @@ public class NotParameterValidatorTest
         NotParameterValidator.EMPTY.validate(map, method);
     }
 
+    @Test
+    public void testNotNegative()
+    {
+        try
+        {
+            NotParameterValidator.NEGATIVE.validate(-3, method);
+            fail("Expected IllegalArgumentException but none was thrown when negative validation occurred with negative value");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertThat(e.getMessage(),
+                    is(method.getName() + " was provided negative, but non negative value is required"));
+        }
+    }
+
+    @Test
+    public void testNotZero()
+    {
+        try
+        {
+            NotParameterValidator.ZERO.validate(0, method);
+            fail("Expected IllegalArgumentException but none was thrown when validation occurred with zero value");
+        }
+        catch (IllegalArgumentException e)
+        {
+            assertThat(e.getMessage(), is(method.getName() + " was provided zero, but non zero value is required"));
+        }
+    }
+
     private interface InterfaceWithMethod
     {
         void method();
