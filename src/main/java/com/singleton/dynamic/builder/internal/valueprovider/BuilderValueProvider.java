@@ -1,5 +1,6 @@
 package com.singleton.dynamic.builder.internal.valueprovider;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Date;
 
@@ -34,16 +35,17 @@ public class BuilderValueProvider
      */
     public Object getValue(Method method, Object argument)
     {
-        Immutable immutableAnnotation = method.getAnnotation(Immutable.class);
-        if (immutableAnnotation == null)
+        for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
         {
-            return argument;
+            if (singleAnnotation.annotationType().equals(Immutable.class))
+            {
+                if (Date.class.equals(argument.getClass()))
+                {
+                    return new Date(((Date) argument).getTime());
+                }
+            }
         }
 
-        if (Date.class.equals(argument.getClass()))
-        {
-            return new Date(((Date) argument).getTime());
-        }
         return argument;
     }
 }

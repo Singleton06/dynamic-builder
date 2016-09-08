@@ -70,7 +70,6 @@ public class BuilderValueProviderTest
 
         TestBuilderInterface nonImmutableDateValue(Date date);
 
-        @Immutable
-        TestBuilderInterface immutableDateValue(Date date);
+        TestBuilderInterface immutableDateValue(@Immutable Date date);
     }
 }

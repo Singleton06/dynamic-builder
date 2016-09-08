@@ -9,7 +9,7 @@ public class DynamicBuilderFactory
 {
     public <T> T createBuilderForClass(Class<T> clazz)
     {
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(clazz);
 
         @SuppressWarnings("unchecked")
         T proxy = (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class<?>[] { clazz }, handler);

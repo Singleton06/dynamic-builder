@@ -30,7 +30,7 @@ import java.util.Map;
  * @author Dustin Singleton
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.PARAMETER, ElementType.METHOD })
+@Target({ ElementType.PARAMETER })
 public @interface Immutable
 {
 }
