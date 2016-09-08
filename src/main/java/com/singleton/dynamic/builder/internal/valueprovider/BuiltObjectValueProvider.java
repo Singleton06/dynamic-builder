@@ -67,15 +67,15 @@ public class BuiltObjectValueProvider
         }
         if (Collection.class.equals(parameterType))
         {
-            return CollectionUtil.copyCollection((Collection<?>) proxiedValue.getValue());
+            return CollectionUtil.INSTANCE.copyCollection((Collection<?>) proxiedValue.getValue());
         }
         if (List.class.equals(parameterType))
         {
-            return CollectionUtil.copyList((List<?>) proxiedValue.getValue());
+            return CollectionUtil.INSTANCE.copyList((List<?>) proxiedValue.getValue());
         }
         if (Set.class.equals(parameterType))
         {
-            return CollectionUtil.copySet((Set<?>) proxiedValue.getValue());
+            return CollectionUtil.INSTANCE.copySet((Set<?>) proxiedValue.getValue());
         }
 
         return null;

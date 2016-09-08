@@ -68,15 +68,15 @@ public class BuilderValueProvider
         }
         if (Collection.class.equals(parameterType))
         {
-            return CollectionUtil.copyCollection((Collection<?>) argument);
+            return CollectionUtil.INSTANCE.copyCollection((Collection<?>) argument);
         }
         if (List.class.equals(parameterType))
         {
-            return CollectionUtil.copyList((List<?>) argument);
+            return CollectionUtil.INSTANCE.copyList((List<?>) argument);
         }
         if (Set.class.equals(parameterType))
         {
-            return CollectionUtil.copySet((Set<?>) argument);
+            return CollectionUtil.INSTANCE.copySet((Set<?>) argument);
         }
 
         return null;

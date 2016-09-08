@@ -11,8 +11,13 @@ import java.util.Set;
  * 
  * @author Dustin Singleton
  */
-public class CollectionUtil
+public enum CollectionUtil
 {
+    /**
+     * Singleton instance of the CollectionUtil.
+     */
+    INSTANCE;
+
     /**
      * <p>
      * Copies the specified collection using an unspecified implementation of {@link Collection}.
@@ -26,7 +31,7 @@ public class CollectionUtil
      * @return the resulting collection, which will have all values from the {@code collectionToCopy}, but could be of a
      *         different implementation.
      */
-    public static <T> Collection<T> copyCollection(Collection<T> collectionToCopy)
+    public <T> Collection<T> copyCollection(Collection<T> collectionToCopy)
     {
         if (collectionToCopy == null)
         {
@@ -49,7 +54,7 @@ public class CollectionUtil
      * @return the resulting list, which will have all values from the {@code listToCopy}, but could be of a different
      *         implementation.
      */
-    public static <T> List<T> copyList(List<T> listToCopy)
+    public <T> List<T> copyList(List<T> listToCopy)
     {
         if (listToCopy == null)
         {
@@ -72,7 +77,7 @@ public class CollectionUtil
      * @return the resulting set, which will have all values from the {@code setToCopy}, but could be of a different
      *         implementation.
      */
-    public static <T> Set<T> copySet(Set<T> setToCopy)
+    public <T> Set<T> copySet(Set<T> setToCopy)
     {
         if (setToCopy == null)
         {
