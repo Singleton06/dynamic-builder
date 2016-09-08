@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.singleton.dynamic.builder.annotation.Not;
+import com.singleton.dynamic.builder.annotation.Required;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
@@ -20,7 +21,13 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
  */
 public class BuilderInvocationHandler implements InvocationHandler
 {
+    private final Class<?> builderClass;
     private final Map<String, Object> valueMap = new HashMap<String, Object>();
+
+    public BuilderInvocationHandler(Class<?> builderClass)
+    {
+        this.builderClass = builderClass;
+    }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
@@ -34,6 +41,7 @@ public class BuilderInvocationHandler implements InvocationHandler
         }
         else if (method.getName().equals("build") && args == null)
         {
+            performRequiredMethodValidation(builderClass.getDeclaredMethods());
             Class<?> returnClass = method.getReturnType();
             InvocationHandler handler = new BuiltObjectInvocationHandler(valueMap);
             return Proxy.newProxyInstance(returnClass.getClassLoader(), new Class<?>[] { returnClass }, handler);
@@ -52,6 +60,20 @@ public class BuilderInvocationHandler implements InvocationHandler
                 for (NotParameterValidator singleValidator : ((Not) singleAnnotation).value())
                 {
                     singleValidator.validate(parameterValue, method);
+                }
+            }
+        }
+    }
+
+    private void performRequiredMethodValidation(Method[] methods)
+    {
+        for (Method method : methods)
+        {
+            if (method.getAnnotation(Required.class) != null)
+            {
+                if (!valueMap.containsKey(method.getName()))
+                {   
+                    throw new IllegalStateException(method.getName() + " was not called on this builder class "+builderClass.getName()+".");
                 }
             }
         }

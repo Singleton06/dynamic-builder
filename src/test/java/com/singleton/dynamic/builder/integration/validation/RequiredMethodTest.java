@@ -1,13 +1,45 @@
 package com.singleton.dynamic.builder.integration.validation;
 
-import static com.singleton.dynamic.builder.validation.NotParameterValidator.NULL;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import com.singleton.dynamic.builder.DynamicBuilderFactory;
-import com.singleton.dynamic.builder.annotation.Not;
+import com.singleton.dynamic.builder.annotation.Required;
 
 public class RequiredMethodTest
 {
+    private final DynamicBuilderFactory factory = new DynamicBuilderFactory();
+    
+    @Test
+    public void testBuilderMethod_IsRequired()
+    {
+        try
+        {
+            factory.createBuilderForClass(RequiredMethodObjectBuilder.class).stringValue("Test-String").build();
+            fail("Expected IllegalStateException but none was thrown when required method on the builder is not called");
+        }
+        catch (IllegalStateException e)
+        {
+            assertThat(e.getMessage(), is("intValue was not called on this builder class "+RequiredMethodObjectBuilder.class.getName()+"."));
+        }
+    }
 
+    private interface RequiredMethodObjectBuilder
+    {
+
+        RequiredMethodObjectBuilder stringValue(String value);
+        
+        @Required
+        RequiredMethodObjectBuilder intValue(int value);
+
+        NotNullObjectBuiltObject build();
+    }
+
+    private interface NotNullObjectBuiltObject
+    {
+        String getStringValue();
+    }
 }
