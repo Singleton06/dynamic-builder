@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.singleton.dynamic.builder.annotation.Not;
+import com.singleton.dynamic.builder.internal.valueprovider.BuilderValueProvider;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
@@ -21,6 +22,20 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
 public class BuilderInvocationHandler implements InvocationHandler
 {
     private final Map<String, Object> valueMap = new HashMap<String, Object>();
+    private final BuilderValueProvider valueProvider;
+
+    /**
+     * Default constructor.
+     */
+    public BuilderInvocationHandler()
+    {
+        this(new BuilderValueProvider());
+    }
+
+    BuilderInvocationHandler(BuilderValueProvider valueProvider)
+    {
+        this.valueProvider = valueProvider;
+    }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
@@ -29,7 +44,8 @@ public class BuilderInvocationHandler implements InvocationHandler
         {
             Object parameterValue = args[0];
             performValidation(method, parameterValue);
-            valueMap.put(method.getName(), parameterValue);
+            Object updatedValue = valueProvider.getValue(method, parameterValue);
+            valueMap.put(method.getName(), updatedValue);
             return proxy;
         }
         else if (method.getName().equals("build") && args == null)
