@@ -35,6 +35,11 @@ public class BuilderValueProvider
      */
     public Object getValue(Method method, Object argument)
     {
+        if (argument == null)
+        {
+            return null;
+        }
+
         for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
         {
             if (singleAnnotation.annotationType().equals(Immutable.class))

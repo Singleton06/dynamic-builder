@@ -1,6 +1,7 @@
 package com.singleton.dynamic.builder.integration.immutability;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
@@ -35,6 +36,31 @@ public class DateImmutabilityTest
 
         builtObject.getImmutableDateValue().setTime(modifyTime);
         assertThat(builtObject.getImmutableDateValue().getTime(), is(originalTime));
+    }
+
+    @Test
+    public void testBuilderImmutability_withNonImmutableAnnotation()
+    {
+        long originalTime = 1000L;
+        long modifyTime = 1001L;
+        long returnedObjectModifyTime = 1002L;
+        Date dateToBeModified = new Date(originalTime);
+
+        BuiltObject builtObject = builder.nonImmutableDateValue(dateToBeModified).build();
+
+        dateToBeModified.setTime(modifyTime);
+        assertThat(builtObject.getNonImmutableDateValue().getTime(), is(modifyTime));
+
+        builtObject.getNonImmutableDateValue().setTime(returnedObjectModifyTime);
+        assertThat(builtObject.getNonImmutableDateValue().getTime(), is(returnedObjectModifyTime));
+    }
+
+    @Test
+    public void testBuilderImmutability_nullValueDoesNothing()
+    {
+        BuiltObject builtObject = builder.immutableDateValue(null).build();
+
+        assertThat(builtObject.getImmutableDateValue(), is(nullValue()));
     }
 
     private interface Builder

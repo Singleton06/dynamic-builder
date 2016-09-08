@@ -32,6 +32,11 @@ public class BuiltObjectValueProvider
      */
     public Object getValue(ProxiedValue proxiedValue)
     {
+        if (proxiedValue.getValue() == null)
+        {
+            return null;
+        }
+
         // Assume that there is only one parameter
         Annotation[] builderMethodAnnotations = proxiedValue.getBuilderMethod().getParameterAnnotations()[0];
         for (Annotation singleAnnotation : builderMethodAnnotations)
