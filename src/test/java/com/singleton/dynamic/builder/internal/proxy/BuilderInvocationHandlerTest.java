@@ -25,7 +25,7 @@ public class BuilderInvocationHandlerTest
         Method stringValueMethod = Builder.class.getMethod(stringValueMethodName, String.class);
         assertThat(stringValueMethod.getName(), is(stringValueMethodName));
 
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(Builder.class);
 
         Object builder = handler.invoke(handler, stringValueMethod, new String[] { "testValue" });
         assertThat(handler, sameInstance(builder));
@@ -42,7 +42,7 @@ public class BuilderInvocationHandlerTest
         Method buildMethod = Builder.class.getMethod(buildMethodName);
         assertThat(buildMethod.getName(), is(buildMethodName));
 
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(Builder.class);
         handler.invoke(handler, stringValueMethod, new String[] { "testValue" });
         BuiltObject builtObject = (BuiltObject) handler.invoke(handler, buildMethod, null);
 
@@ -56,7 +56,7 @@ public class BuilderInvocationHandlerTest
         Method nonMatchingMethod = NotABuilder.class.getMethod(nonMatchingMethodName);
         assertThat(nonMatchingMethod.getName(), is(nonMatchingMethodName));
 
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(NotABuilder.class);
         Object returnedValue = handler.invoke(handler, nonMatchingMethod, null);
 
         assertThat(returnedValue, is(nullValue()));
@@ -69,7 +69,7 @@ public class BuilderInvocationHandlerTest
         Method buildMethod = Builder.class.getMethod(buildMethodName);
         assertThat(buildMethod.getName(), is(buildMethodName));
 
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(Builder.class);
         Object returnedValue = handler.invoke(handler, buildMethod, new String[] { "argument" });
 
         assertThat(returnedValue, is(nullValue()));
@@ -82,7 +82,7 @@ public class BuilderInvocationHandlerTest
         Method setterMethodWithNoArgs = Builder.class.getMethod(setterMethodWithNoArgsMethodName);
         assertThat(setterMethodWithNoArgs.getName(), is(setterMethodWithNoArgsMethodName));
 
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(Builder.class);
         Object returnedValue = handler.invoke(handler, setterMethodWithNoArgs, null);
 
         assertThat(returnedValue, is(nullValue()));
@@ -96,7 +96,7 @@ public class BuilderInvocationHandlerTest
                 String.class);
         assertThat(setterMethodWithNoArgs.getName(), is(setterMethodWithNoArgsMethodName));
 
-        InvocationHandler handler = new BuilderInvocationHandler();
+        InvocationHandler handler = new BuilderInvocationHandler(Builder.class);
         Object returnedValue = handler.invoke(handler, setterMethodWithNoArgs, new Object[] { "String1", "String2" });
 
         assertThat(returnedValue, is(nullValue()));
