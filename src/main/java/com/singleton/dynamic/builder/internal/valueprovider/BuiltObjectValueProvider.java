@@ -3,6 +3,7 @@ package com.singleton.dynamic.builder.internal.valueprovider;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.singleton.dynamic.builder.annotation.Immutable;
 import com.singleton.dynamic.builder.internal.common.CollectionUtil;
@@ -66,6 +67,10 @@ public class BuiltObjectValueProvider
         if (Collection.class.equals(parameterType))
         {
             return CollectionUtil.copyCollection((Collection<?>) proxiedValue.getValue());
+        }
+        if (List.class.equals(parameterType))
+        {
+            return CollectionUtil.copyList((List<?>) proxiedValue.getValue());
         }
 
         return null;

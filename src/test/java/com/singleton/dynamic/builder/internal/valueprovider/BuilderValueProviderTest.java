@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -39,6 +40,15 @@ public class BuilderValueProviderTest
     private final Method immutableCollectionValueMethod = getMethod(immutableCollectionValueMethodName,
             Collection.class);
 
+    private final String mutableListValueMethodName = "mutableListValue";
+    private final Method mutableListValueMethod = getMethod(mutableListValueMethodName, List.class);
+
+    private final String immutableListValueMethodName = "immutableListValue";
+    private final Method immutableListValueMethod = getMethod(immutableListValueMethodName, List.class);
+
+    private final String immutableStringValueMethodName = "immutableStringValue";
+    private final Method immutableStringValueMethod = getMethod(immutableStringValueMethodName, String.class);
+
     private static Method getMethod(String name, Class<?>... parameterTypes)
     {
         try
@@ -63,6 +73,14 @@ public class BuilderValueProviderTest
 
         assertThat(value, is(instanceOf(Date.class)));
         assertThat(((Date) value).getTime(), is(modifyTime));
+    }
+
+    @Test
+    public void testGetValue_nullMutableDate()
+    {
+        Object value = valueProvider.getValue(mutableDateMethod, null);
+
+        assertThat(value, is(nullValue()));
     }
 
     @Test
@@ -127,6 +145,74 @@ public class BuilderValueProviderTest
         assertThat((Collection<String>) value, is(collectionToModify));
     }
 
+    @Test
+    public void testGetValue_nullMutableCollection()
+    {
+        Object value = valueProvider.getValue(mutableCollectionValueMethod, null);
+
+        assertThat(value, is(nullValue()));
+    }
+
+    // Suppression added because of the lack of type safety that the handlers have
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetValue_immutableList()
+    {
+        List<String> originalList = Arrays.asList("String1", "String2");
+        List<String> ListToModify = new ArrayList<String>(originalList);
+
+        Object value = valueProvider.getValue(immutableListValueMethod, ListToModify);
+        Iterator<String> iterator = ListToModify.iterator();
+        iterator.next();
+        iterator.remove();
+
+        assertThat((List<String>) value, is(originalList));
+    }
+
+    @Test
+    public void testGetValue_nullImmutableList()
+    {
+        Object value = valueProvider.getValue(immutableListValueMethod, null);
+
+        assertThat(value, is(nullValue()));
+    }
+
+    // Suppression added because of the lack of type safety that the handlers have
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetValue_mutableList()
+    {
+        List<String> originalList = Arrays.asList("String1", "String2");
+        List<String> ListToModify = new ArrayList<String>(originalList);
+
+        Object value = valueProvider.getValue(mutableListValueMethod, ListToModify);
+        Iterator<String> iterator = ListToModify.iterator();
+        iterator.next();
+        iterator.remove();
+
+        assertThat((List<String>) value, is(ListToModify));
+    }
+
+    @Test
+    public void testGetValue_nullMutableList()
+    {
+        Object value = valueProvider.getValue(mutableListValueMethod, null);
+
+        assertThat(value, is(nullValue()));
+    }
+
+    /**
+     * This test is to ensure that in situations where the type that is declared to be immutable is not technically
+     * supported, that the argument is just returned in that situation.
+     */
+    @Test
+    public void testGetValue_stringValueWithImmutableAnnotation()
+    {
+        String value = (String) valueProvider.getValue(immutableStringValueMethod, "testing");
+
+        assertThat(value, is("testing"));
+    }
+
     private interface TestBuilderInterface
     {
         TestBuilderInterface mutableDateValue(Date date);
@@ -136,5 +222,11 @@ public class BuilderValueProviderTest
         TestBuilderInterface mutableCollectionValue(Collection<String> collection);
 
         TestBuilderInterface immutableCollectionValue(@Immutable Collection<String> collection);
+
+        TestBuilderInterface mutableListValue(List<String> list);
+
+        TestBuilderInterface immutableListValue(@Immutable List<String> list);
+
+        TestBuilderInterface immutableStringValue(@Immutable String string);
     }
 }
