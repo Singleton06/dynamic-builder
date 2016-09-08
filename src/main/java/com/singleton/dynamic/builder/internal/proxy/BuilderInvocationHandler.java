@@ -23,7 +23,7 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
 public class BuilderInvocationHandler implements InvocationHandler
 {
     private final Class<?> builderClass;
-    private final Map<String, Object> valueMap = new HashMap<String, Object>();
+    private final Map<String, ProxiedValue> valueMap = new HashMap<String, ProxiedValue>();
     private final BuilderValueProvider valueProvider;
 
     /**
@@ -51,7 +51,7 @@ public class BuilderInvocationHandler implements InvocationHandler
             Object parameterValue = args[0];
             performValidation(method, parameterValue);
             Object updatedValue = valueProvider.getValue(method, parameterValue);
-            valueMap.put(method.getName(), updatedValue);
+            valueMap.put(method.getName(), new ProxiedValue(method, updatedValue));
             return proxy;
         }
         else if (method.getName().equals("build") && args == null)

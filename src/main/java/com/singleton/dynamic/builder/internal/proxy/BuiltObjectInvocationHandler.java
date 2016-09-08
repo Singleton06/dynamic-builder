@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.singleton.dynamic.builder.defaults.DefaultProvider;
+import com.singleton.dynamic.builder.internal.valueprovider.BuiltObjectValueProvider;
 
 /**
  * <p>
@@ -18,7 +19,8 @@ import com.singleton.dynamic.builder.defaults.DefaultProvider;
 public class BuiltObjectInvocationHandler implements InvocationHandler
 {
     private final DefaultProvider defaultProvider = new DefaultProvider();
-    private final Map<String, Object> valueMap;
+    private final Map<String, ProxiedValue> valueMap;
+    private final BuiltObjectValueProvider valueProvider;
 
     /**
      * Constructs a new {@link BuiltObjectInvocationHandler} with the provided {@code valueMap}.
@@ -26,14 +28,20 @@ public class BuiltObjectInvocationHandler implements InvocationHandler
      * @param valueMap
      *            The map of values keyed by the method names.
      */
-    public BuiltObjectInvocationHandler(Map<String, Object> valueMap)
+    public BuiltObjectInvocationHandler(Map<String, ProxiedValue> valueMap)
     {
-        this.valueMap = convertToGetterMethod(valueMap);
+        this(valueMap, new BuiltObjectValueProvider());
     }
 
-    private Map<String, Object> convertToGetterMethod(Map<String, Object> originalMap)
+    BuiltObjectInvocationHandler(Map<String, ProxiedValue> valueMap, BuiltObjectValueProvider valueProvider)
     {
-        Map<String, Object> convertedMap = new HashMap<String, Object>();
+        this.valueMap = convertToGetterMethod(valueMap);
+        this.valueProvider = valueProvider;
+    }
+
+    private Map<String, ProxiedValue> convertToGetterMethod(Map<String, ProxiedValue> originalMap)
+    {
+        Map<String, ProxiedValue> convertedMap = new HashMap<String, ProxiedValue>();
         for (String methodKey : originalMap.keySet())
         {
             String firstCharacter = methodKey.substring(0, 1).toUpperCase();
@@ -48,7 +56,8 @@ public class BuiltObjectInvocationHandler implements InvocationHandler
     {
         if (valueMap.containsKey(method.getName()))
         {
-            return valueMap.get(method.getName());
+            ProxiedValue proxiedValue = valueMap.get(method.getName());
+            return valueProvider.getValue(proxiedValue);
         }
 
         return defaultProvider.getDefaultValue(method);
