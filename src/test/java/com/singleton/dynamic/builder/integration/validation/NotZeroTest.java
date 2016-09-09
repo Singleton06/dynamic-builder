@@ -14,7 +14,7 @@ import com.singleton.dynamic.builder.annotation.Not;
  * Test class to validate that an argument to a builder method can be declared as not to have zero value and it will be
  * enforced.
  * 
- * @author PK030071
+ * @author Prateek Kansal
  *
  */
 @SuppressWarnings({ "javadoc" })
@@ -23,7 +23,7 @@ public class NotZeroTest
     private final DynamicBuilderFactory factory = new DynamicBuilderFactory();
 
     @Test
-    public void testIntValue_NotNegative()
+    public void testNotZero_ValueZero()
     {
         try
         {
@@ -34,6 +34,20 @@ public class NotZeroTest
         {
             assertThat(e.getMessage(), is("intValue was provided zero, but non zero value is required"));
         }
+    }
+    
+    @Test
+    public void testNotZero_ValueNonZero()
+    {
+        assertThat(factory.createBuilderForClass(NotZeroObjectBuilder.class).intValue(1).build().getIntValue(), is(1));
+    }
+
+    @Test
+    public void testNotZero_ValueNull()
+    {
+        assertThat(factory.createBuilderForClass(NotZeroNullObjectBuilder.class).integerValue(null).build()
+                .getIntegerValue(),
+                is((Integer) null));
     }
 
     private interface NotZeroObjectBuilder
@@ -46,5 +60,17 @@ public class NotZeroTest
     private interface NotZeroObject
     {
         int getIntValue();
+    }
+
+    private interface NotZeroNullObjectBuilder
+    {
+        NotZeroNullObjectBuilder integerValue(@Not({ ZERO }) Integer value);
+
+        NotZeroNullObject build();
+    }
+
+    private interface NotZeroNullObject
+    {
+        Integer getIntegerValue();
     }
 }

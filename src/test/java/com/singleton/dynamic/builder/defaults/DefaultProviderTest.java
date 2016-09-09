@@ -1,15 +1,26 @@
 package com.singleton.dynamic.builder.defaults;
 
+import static com.singleton.dynamic.builder.defaults.DefaultValueType.CURRENT_DATE_TIME;
+import static com.singleton.dynamic.builder.defaults.DefaultValueType.EMPTY;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
+
+import com.singleton.dynamic.builder.annotation.DefaultValue;
 
 /**
  * Test class for {@link DefaultProvider}.
  * 
  * @author Dustin Singleton
+ * @author Prateek Kansal
  */
 @SuppressWarnings({ "javadoc" })
 public class DefaultProviderTest
@@ -97,6 +108,47 @@ public class DefaultProviderTest
         assertEquals(null, defaultProvider.getDefaultValue(method));
     }
     
+    @Test
+    public void testGetDefaultValue_String()
+    {   
+        Method method = EmptyStringAnnotatedObjectBuilder.class.getMethods()[0];
+
+        assertEquals("", defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
+    }
+
+    @Test
+    public void testGetDefaultValue_Collection()
+    {
+        Method method = EmptyCollectionAnnotatedObjectBuilder.class.getMethods()[0];
+
+        assertEquals(new ArrayList(), defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
+    }
+
+    @Test
+    public void testGetDefaultValue_Set()
+    {
+        Method method = EmptySetAnnotatedObjectBuilder.class.getMethods()[0];
+
+        assertEquals(new HashSet(), defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
+    }
+
+    @Test
+    public void testGetDefaultValue_Date() throws InterruptedException
+    {
+        Method method = CurrentDateTimeAnnotatedObjectBuilder.class.getMethods()[0];
+
+        Date startDate = new Date();
+        Thread.sleep(1);
+
+        Date originalDate = (Date) defaultProvider.getDefaultValue(method.getParameterTypes()[0], CURRENT_DATE_TIME);
+        Thread.sleep(1);
+
+        Date endDate = new Date();
+        
+        assertTrue(originalDate.after(startDate));
+        assertTrue(originalDate.before(endDate));
+    }
+
     private interface BooleanObject
     {
         boolean getValue();
@@ -140,5 +192,25 @@ public class DefaultProviderTest
     private interface ObjectObject
     {
         Object getValue();
+    }
+
+    private interface EmptyStringAnnotatedObjectBuilder
+    {
+        Object stringValue(@DefaultValue(EMPTY) String value);
+    }
+    
+    private interface EmptyCollectionAnnotatedObjectBuilder
+    {
+        Object collectionValue(@DefaultValue(EMPTY) Collection<?> value);
+    }
+    
+    private interface EmptySetAnnotatedObjectBuilder
+    {
+        Object setValue(@DefaultValue(EMPTY) Set<?> value);
+    }
+    
+    private interface CurrentDateTimeAnnotatedObjectBuilder
+    {
+        Object dateValue(@DefaultValue(CURRENT_DATE_TIME) Date value);
     }
 }

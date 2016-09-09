@@ -13,7 +13,7 @@ import com.singleton.dynamic.builder.annotation.Not;
 /**
  * Test class to validate that an argument to a builder method can be declared as not negative and it will be enforced.
  * 
- * @author PK030071
+ * @author Prateek Kansal
  *
  */
 @SuppressWarnings({ "javadoc" })
@@ -22,7 +22,7 @@ public class NotNegativeTest
     private final DynamicBuilderFactory factory = new DynamicBuilderFactory();
 
     @Test
-    public void testIntValue_NotNegative()
+    public void testNotNegative_ValueNegative()
     {
         try
         {
@@ -33,6 +33,13 @@ public class NotNegativeTest
         {
             assertThat(e.getMessage(), is("intValue was provided negative, but non negative value is required"));
         }
+    }
+    
+    @Test
+    public void testNotNegative_ValueNull()
+    {   
+        assertThat(factory.createBuilderForClass(NotNegativeNullObjectBuilder.class).integerValue(null).build()
+                .getIntegerValue(), is((Integer) null));
     }
 
     private interface NotNegativeObjectBuilder
@@ -45,5 +52,17 @@ public class NotNegativeTest
     private interface NotNegativeObject
     {
         int getIntValue();
+    }
+    
+    private interface NotNegativeNullObjectBuilder
+    {
+        NotNegativeNullObjectBuilder integerValue(@Not({ NEGATIVE }) Integer value);
+
+        NotNegativeNullObject build();
+    }
+
+    private interface NotNegativeNullObject
+    {
+        Integer getIntegerValue();
     }
 }

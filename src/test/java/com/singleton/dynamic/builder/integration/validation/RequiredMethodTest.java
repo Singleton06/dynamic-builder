@@ -13,7 +13,7 @@ import com.singleton.dynamic.builder.annotation.Required;
  * Test class to validate that if any method with {@link Required} annotation on the builder class is not called then it
  * must throw {@link IllegalStateException}.
  * 
- * @author PK030071
+ * @author Prateek Kansal
  *
  */
 @SuppressWarnings({ "javadoc" })

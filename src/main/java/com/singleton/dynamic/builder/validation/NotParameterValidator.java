@@ -13,6 +13,7 @@ import com.singleton.dynamic.builder.validation.exception.MismatchedValidatorTyp
  * </p>
  *
  * @author Dustin Singleton
+ * @author Prateek Kansal
  */
 public enum NotParameterValidator
 {
@@ -30,6 +31,7 @@ public enum NotParameterValidator
             }
         }
     },
+
     /**
      * Validator for ensuring that the specified arguments are not empty. Supported data types are:
      * <ul>
@@ -72,6 +74,12 @@ public enum NotParameterValidator
         }
     },
 
+    /**
+     * Validator for ensuring that the specified arguments are not negative. Supported data types are:
+     * <ul>
+     * <li>{@link Number}</li>
+     * </ul>
+     */
     NEGATIVE
     {
         @Override
@@ -93,6 +101,12 @@ public enum NotParameterValidator
         }
     },
 
+    /**
+     * Validator for ensuring that the specified arguments are not zero. Supported data types are:
+     * <ul>
+     * <li>{@link Number}</li>
+     * </ul>
+     */
     ZERO
     {
         @Override

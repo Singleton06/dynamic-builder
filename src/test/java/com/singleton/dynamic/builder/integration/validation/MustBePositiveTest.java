@@ -14,7 +14,7 @@ import com.singleton.dynamic.builder.annotation.Not;
 /**
  * Test class to validate that an argument to a builder method can be declared as positive only and it will be enforced.
  * 
- * @author PK030071
+ * @author Prateek Kansal
  *
  */
 @SuppressWarnings({ "javadoc" })

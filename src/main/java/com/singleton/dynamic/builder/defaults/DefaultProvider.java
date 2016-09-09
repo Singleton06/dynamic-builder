@@ -1,6 +1,13 @@
 package com.singleton.dynamic.builder.defaults;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.singleton.dynamic.builder.annotation.DefaultValue;
 
 /**
  * API to provide default values based on the provided method.
@@ -28,7 +35,7 @@ public class DefaultProvider
      * @return the default value for the method specified.
      */
     public Object getDefaultValue(Method method)
-    {
+    {   
         Class<?> returnType = method.getReturnType();
         if (returnType.isPrimitive())
         {
@@ -36,6 +43,21 @@ public class DefaultProvider
         }
 
         return null;
+    }
+
+    /**
+     * Gets the default value for the specified parameter type. This will only return value for non-primitive types
+     * specified using the {@link DefaultValue annotation} {@link DefaultValue value type}.
+     * 
+     * @param parameterType
+     *            The type of the parameter.
+     * @param defaultValueType
+     *            The {@link DefaultValueType value} type of the {@link DefaultValue annotation}.
+     * @return The default value specified for the {@code defaultValueType}.
+     */
+    public Object getDefaultValue(Class<?> parameterType, DefaultValueType defaultValueType)
+    {
+        return getNonPrimitiveDefaultValue(parameterType, defaultValueType);
     }
 
     private static Object getPrimitiveDefaultValue(Class<?> returnType)
@@ -75,5 +97,43 @@ public class DefaultProvider
             // Return byte, given that it is the only other primitive type
             return (byte) 0;
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static Object getNonPrimitiveDefaultValue(Class<?> paramType, DefaultValueType defaultValueType)
+    {   
+        if (String.class.isAssignableFrom(paramType))
+        {
+            if (DefaultValueType.EMPTY.equals(defaultValueType))
+            {
+                return "";
+            }
+        }
+
+        if (Collection.class.equals(paramType))
+        {
+            if (DefaultValueType.EMPTY.equals(defaultValueType))
+            {
+                return new ArrayList();
+            }
+        }
+
+        if (Date.class.isAssignableFrom(paramType))
+        {
+            if (DefaultValueType.CURRENT_DATE_TIME.equals(defaultValueType))
+            {
+                return new Date();
+            }
+        }
+
+        if (Set.class.isAssignableFrom(paramType))
+        {
+            if (DefaultValueType.EMPTY.equals(defaultValueType))
+            {
+                return new HashSet();
+            }
+        }
+
+        return null;
     }
 }

@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.singleton.dynamic.builder.annotation.DefaultValue;
 import com.singleton.dynamic.builder.annotation.Immutable;
+import com.singleton.dynamic.builder.defaults.DefaultProvider;
 import com.singleton.dynamic.builder.internal.common.CollectionUtil;
 
 /**
@@ -15,9 +17,12 @@ import com.singleton.dynamic.builder.internal.common.CollectionUtil;
  * done to produce the end value that will be stored within the builder.
  * 
  * @author Dustin Singleton
+ * @author Prateek Kansal
  */
 public class BuilderValueProvider
 {
+    private DefaultProvider defaultProvider = new DefaultProvider();
+
     /**
      * <p>
      * Gets the value based on the method provided and the argument to the method. This method expects that the provided
@@ -40,7 +45,13 @@ public class BuilderValueProvider
     public Object getValue(Method method, Object argument)
     {
         if (argument == null)
-        {
+        {   
+            Annotation annotation = isMethodContainAnnotationClass(method, DefaultValue.class);
+            if (annotation != null)
+            {
+                return defaultProvider.getDefaultValue(method.getParameterTypes()[0],
+                        ((DefaultValue) annotation).value());
+            }
             return null;
         }
 
@@ -79,6 +90,19 @@ public class BuilderValueProvider
             return CollectionUtil.INSTANCE.copySet((Set<?>) argument);
         }
 
+        return null;
+    }
+
+    private Annotation isMethodContainAnnotationClass(Method method,
+            Class<? extends Annotation> annotationType)
+    {
+        for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
+        {
+            if (singleAnnotation.annotationType().equals(annotationType))
+            {
+                return singleAnnotation;
+            }
+        }
         return null;
     }
 }
