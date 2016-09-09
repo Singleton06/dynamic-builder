@@ -99,7 +99,6 @@ public class DefaultProvider
         }
     }
 
-    @SuppressWarnings("rawtypes")
     private static Object getNonPrimitiveDefaultValue(Class<?> paramType, DefaultValueType defaultValueType)
     {   
         if (String.class.isAssignableFrom(paramType))

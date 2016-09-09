@@ -12,24 +12,26 @@ import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.DefaultValue;
 
 /**
- * Test to validate the default value annotation on the builder method parameter of type {@link Set}.
+ * Test to validate that if builder methods of parameter type {@link Set} is not called then specified default value is
+ * used.
  *
  * @author Prateek Kansal
  */
 @SuppressWarnings("javadoc")
-public class SetDefaultValueAnnotationTest
+public class DefaultValueAnnotationSetTest
 {
-
     @Test
     public void testDefaultValueAnnotation_forEmptyset()
     {
         assertEquals(new HashSet(), new DynamicBuilderFactory()
-                .createBuilderForClass(DefaultValueSetObjectBuilder.class).setValue(null).build().getSetValue());
+                .createBuilderForClass(DefaultValueSetObjectBuilder.class).intValue(1).build().getSetValue());
     }
 
     private interface DefaultValueSetObjectBuilder
     {
         DefaultValueSetObjectBuilder setValue(@DefaultValue(EMPTY) Set<?> value);
+
+        DefaultValueSetObjectBuilder intValue(int value);
 
         DefaultValueSetObject build();
     }
@@ -37,5 +39,7 @@ public class SetDefaultValueAnnotationTest
     private interface DefaultValueSetObject
     {
         Set<?> getSetValue();
+
+        int getIntValue();
     }
 }

@@ -58,7 +58,7 @@ public class BuilderInvocationHandler implements InvocationHandler
         {
             performRequiredMethodValidation(builderClass.getDeclaredMethods());
             Class<?> returnClass = method.getReturnType();
-            InvocationHandler handler = new BuiltObjectInvocationHandler(valueMap);
+            InvocationHandler handler = new BuiltObjectInvocationHandler(valueMap, builderClass);
             return Proxy.newProxyInstance(returnClass.getClassLoader(), new Class<?>[] { returnClass }, handler);
         }
 

@@ -9,24 +9,27 @@ import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.DefaultValue;
 
 /**
- * Test to validate the builder method annotated with default value for type {@link String}.
+ * Test to validate that if builder methods of parameter type {@link String} is not called then specified default value
+ * is used.
  *
  * @author Prateek Kansal
  */
 @SuppressWarnings("javadoc")
-public class StringDefaultValueAnnotationTest
+public class DefaultValueAnnotationStringTest
 {
     @Test
     public void testDefaultValueAnnotation_forEmptyString()
     {
         assertEquals("",
                 new DynamicBuilderFactory().createBuilderForClass(StringDefaultValueObjectBuilder.class)
-                        .stringValue(null).build().getStringValue());
+                        .intValue(1).build().getStringValue());
     }
 
     private interface StringDefaultValueObjectBuilder
     {
         StringDefaultValueObjectBuilder stringValue(@DefaultValue(EMPTY) String value);
+
+        StringDefaultValueObjectBuilder intValue(int value);
 
         StringDefaultValueObject build();
     }
@@ -34,5 +37,7 @@ public class StringDefaultValueAnnotationTest
     private interface StringDefaultValueObject
     {
         String getStringValue();
+
+        int getIntValue();
     }
 }

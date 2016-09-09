@@ -1,10 +1,12 @@
 package com.singleton.dynamic.builder.internal.proxy;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.singleton.dynamic.builder.annotation.DefaultValue;
 import com.singleton.dynamic.builder.defaults.DefaultProvider;
 import com.singleton.dynamic.builder.internal.valueprovider.BuiltObjectValueProvider;
 
@@ -21,6 +23,7 @@ public class BuiltObjectInvocationHandler implements InvocationHandler
     private final DefaultProvider defaultProvider = new DefaultProvider();
     private final Map<String, ProxiedValue> valueMap;
     private final BuiltObjectValueProvider valueProvider;
+    private final Class<?> builderClass;
 
     /**
      * Constructs a new {@link BuiltObjectInvocationHandler} with the provided {@code valueMap}.
@@ -28,15 +31,17 @@ public class BuiltObjectInvocationHandler implements InvocationHandler
      * @param valueMap
      *            The map of values keyed by the method names.
      */
-    public BuiltObjectInvocationHandler(Map<String, ProxiedValue> valueMap)
+    public BuiltObjectInvocationHandler(Map<String, ProxiedValue> valueMap, Class<?> builderClass)
     {
-        this(valueMap, new BuiltObjectValueProvider());
+        this(valueMap, new BuiltObjectValueProvider(), builderClass);
     }
 
-    BuiltObjectInvocationHandler(Map<String, ProxiedValue> valueMap, BuiltObjectValueProvider valueProvider)
+    BuiltObjectInvocationHandler(Map<String, ProxiedValue> valueMap, BuiltObjectValueProvider valueProvider,
+            Class<?> builderClass)
     {
         this.valueMap = convertToGetterMethod(valueMap);
         this.valueProvider = valueProvider;
+        this.builderClass = builderClass;
     }
 
     private Map<String, ProxiedValue> convertToGetterMethod(Map<String, ProxiedValue> originalMap)
@@ -60,6 +65,40 @@ public class BuiltObjectInvocationHandler implements InvocationHandler
             return valueProvider.getValue(proxiedValue);
         }
 
-        return defaultProvider.getDefaultValue(method);
+        return getDefaultValue(method);
+    }
+
+    private Object getDefaultValue(Method getterMethod)
+    {
+        String getterMethodName = getterMethod.getName();
+        String setterMetthedName = getterMethodName.substring(3);
+
+        Method[] builderMethods = builderClass.getDeclaredMethods();
+        for (Method method : builderMethods)
+        {
+            if (method.getName().equalsIgnoreCase(setterMetthedName))
+            {
+                Annotation annotation = isMethodContainAnnotationClass(method, DefaultValue.class);
+                if (annotation != null)
+                {
+                    return defaultProvider.getDefaultValue(method.getParameterTypes()[0],
+                            ((DefaultValue) annotation).value());
+                }
+            }
+        }
+
+        return defaultProvider.getDefaultValue(getterMethod);
+    }
+
+    private Annotation isMethodContainAnnotationClass(Method method, Class<? extends Annotation> annotationType)
+    {
+        for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
+        {
+            if (singleAnnotation.annotationType().equals(annotationType))
+            {
+                return singleAnnotation;
+            }
+        }
+        return null;
     }
 }

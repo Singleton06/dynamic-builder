@@ -2,6 +2,7 @@ package com.singleton.dynamic.builder.defaults;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import com.singleton.dynamic.builder.annotation.DefaultValue;
 
@@ -13,7 +14,7 @@ import com.singleton.dynamic.builder.annotation.DefaultValue;
 public enum DefaultValueType
 {
     /**
-     * Any parameter of type {@link Collection} or its sub-classes type will be default to empty.
+     * Any parameter of type {@link Collection}, {@link Set} or {@link String} will default to empty.
      */
     EMPTY,
 

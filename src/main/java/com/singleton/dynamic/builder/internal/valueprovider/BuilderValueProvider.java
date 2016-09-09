@@ -3,14 +3,16 @@ package com.singleton.dynamic.builder.internal.valueprovider;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.singleton.dynamic.builder.annotation.DefaultValue;
 import com.singleton.dynamic.builder.annotation.Immutable;
-import com.singleton.dynamic.builder.defaults.DefaultProvider;
+import com.singleton.dynamic.builder.annotation.SanitizeValue;
 import com.singleton.dynamic.builder.internal.common.CollectionUtil;
+import com.singleton.dynamic.builder.sanitation.SanitationProvider;
+import com.singleton.dynamic.builder.sanitation.SanitizeValueType;
 
 /**
  * Class that will inspect the method that is called and determine what all data massaging and other work needs to be
@@ -21,7 +23,7 @@ import com.singleton.dynamic.builder.internal.common.CollectionUtil;
  */
 public class BuilderValueProvider
 {
-    private DefaultProvider defaultProvider = new DefaultProvider();
+    private SanitationProvider sanitationProvider = new SanitationProvider();
 
     /**
      * <p>
@@ -44,15 +46,27 @@ public class BuilderValueProvider
      */
     public Object getValue(Method method, Object argument)
     {
+        Annotation defaultValueAnnotation = isMethodContainAnnotationClass(method, SanitizeValue.class);
+        Class<?> parameterType = method.getParameterTypes()[0];
+
         if (argument == null)
-        {   
-            Annotation annotation = isMethodContainAnnotationClass(method, DefaultValue.class);
-            if (annotation != null)
+        {
+            if (defaultValueAnnotation != null)
             {
-                return defaultProvider.getDefaultValue(method.getParameterTypes()[0],
-                        ((DefaultValue) annotation).value());
+                SanitizeValueType valueType = ((SanitizeValue) defaultValueAnnotation).value();
+                return sanitationProvider.sanitize(parameterType, valueType);
             }
             return null;
+        }
+
+        if (defaultValueAnnotation != null && Collection.class.isAssignableFrom(parameterType)
+                && !Collection.class.cast(argument).isEmpty())
+        {
+            SanitizeValueType valueType = ((SanitizeValue) defaultValueAnnotation).value();
+            if (isThisIgnoreNullElements(valueType))
+            {
+                Collection.class.cast(argument).removeAll(Collections.singleton(null));
+            }
         }
 
         for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
@@ -68,6 +82,11 @@ public class BuilderValueProvider
         }
 
         return argument;
+    }
+
+    private boolean isThisIgnoreNullElements(SanitizeValueType valueType)
+    {
+        return SanitizeValueType.IGNORE_NULL_ELEMENTS.equals(valueType);
     }
 
     private Object getImmutableReturnValue(Method method, Object argument)
@@ -93,8 +112,7 @@ public class BuilderValueProvider
         return null;
     }
 
-    private Annotation isMethodContainAnnotationClass(Method method,
-            Class<? extends Annotation> annotationType)
+    private Annotation isMethodContainAnnotationClass(Method method, Class<? extends Annotation> annotationType)
     {
         for (Annotation singleAnnotation : method.getParameterAnnotations()[0])
         {
