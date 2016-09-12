@@ -5,4 +5,4 @@ after_success: mvn jacoco:report coveralls:report
 jdk:
   - oraclejdk8
   - oraclejdk7
-  - openjdk7
+  - openjdk6
