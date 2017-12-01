@@ -16,13 +16,13 @@ import com.singleton.dynamic.builder.annotation.DefaultValue;
  */
 public class DefaultProvider
 {
-    private static final String BOOLEAN = "boolean";
-    private static final String CHAR = "char";
-    private static final String DOUBLE = "double";
-    private static final String FLOAT = "float";
-    private static final String LONG = "long";
-    private static final String INT = "int";
-    private static final String SHORT = "short";
+    private static final String BOOLEAN = "boolean"; //$NON-NLS-1$
+    private static final String CHAR = "char"; //$NON-NLS-1$
+    private static final String DOUBLE = "double"; //$NON-NLS-1$
+    private static final String FLOAT = "float"; //$NON-NLS-1$
+    private static final String LONG = "long"; //$NON-NLS-1$
+    private static final String INT = "int"; //$NON-NLS-1$
+    private static final String SHORT = "short"; //$NON-NLS-1$
 
     /**
      * Gets the default value for the method specified. While this <strong>might</strong> be the java default value, it
@@ -35,7 +35,7 @@ public class DefaultProvider
      * @return the default value for the method specified.
      */
     public Object getDefaultValue(Method method)
-    {   
+    {
         Class<?> returnType = method.getReturnType();
         if (returnType.isPrimitive())
         {
@@ -100,12 +100,12 @@ public class DefaultProvider
     }
 
     private static Object getNonPrimitiveDefaultValue(Class<?> paramType, DefaultValueType defaultValueType)
-    {   
+    {
         if (String.class.isAssignableFrom(paramType))
         {
             if (DefaultValueType.EMPTY.equals(defaultValueType))
             {
-                return "";
+                return ""; //$NON-NLS-1$
             }
         }
 
@@ -113,7 +113,7 @@ public class DefaultProvider
         {
             if (DefaultValueType.EMPTY.equals(defaultValueType))
             {
-                return new ArrayList();
+                return new ArrayList<Object>();
             }
         }
 
@@ -129,7 +129,7 @@ public class DefaultProvider
         {
             if (DefaultValueType.EMPTY.equals(defaultValueType))
             {
-                return new HashSet();
+                return new HashSet<Object>();
             }
         }
 

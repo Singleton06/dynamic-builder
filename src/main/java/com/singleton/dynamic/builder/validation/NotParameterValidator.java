@@ -15,7 +15,7 @@ import com.singleton.dynamic.builder.validation.exception.MismatchedValidatorTyp
  * @author Dustin Singleton
  * @author Prateek Kansal
  */
-public enum NotParameterValidator
+public enum NotParameterValidator implements Validator
 {
     /**
      * Validator for ensuring that the specified arguments are not {@code null}.
@@ -27,7 +27,17 @@ public enum NotParameterValidator
         {
             if (objectToValidate == null)
             {
-                throw new IllegalArgumentException(method.getName() + " was provided null, but non null values are required");
+                throw new IllegalArgumentException(
+                        method.getName() + " was provided null, but non null values are required"); //$NON-NLS-1$
+            }
+        }
+
+        @Override
+        public void validate(Object objectToValidate, String methodName)
+        {
+            if (objectToValidate == null)
+            {
+                throw new IllegalArgumentException(methodName + " was provided null, but non null values are required"); //$NON-NLS-1$
             }
         }
     },
@@ -52,7 +62,8 @@ public enum NotParameterValidator
             {
                 if (((String) objectToValidate).isEmpty())
                 {
-                    throw new IllegalArgumentException(method.getName() + " was provided empty, but non empty values are required");
+                    throw new IllegalArgumentException(
+                            method.getName() + " was provided empty, but non empty values are required"); //$NON-NLS-1$
                 }
             }
 
@@ -60,7 +71,8 @@ public enum NotParameterValidator
             {
                 if (((Collection<?>) objectToValidate).isEmpty())
                 {
-                    throw new IllegalArgumentException(method.getName() + " was provided an empty collection, but a non-empty collection is required");
+                    throw new IllegalArgumentException(method.getName()
+                            + " was provided an empty collection, but a non-empty collection is required"); //$NON-NLS-1$
                 }
             }
 
@@ -68,7 +80,44 @@ public enum NotParameterValidator
             {
                 if (((Map<?, ?>) objectToValidate).isEmpty())
                 {
-                    throw new IllegalArgumentException(method.getName() + " was provided an empty map, but a non-empty map is required");
+                    throw new IllegalArgumentException(
+                            method.getName() + " was provided an empty map, but a non-empty map is required"); //$NON-NLS-1$
+                }
+            }
+        }
+
+        @Override
+        public void validate(Object objectToValidate, String methodName)
+        {
+            if (objectToValidate == null)
+            {
+                return;
+            }
+
+            if (String.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((String) objectToValidate).isEmpty())
+                {
+                    throw new IllegalArgumentException(
+                            methodName + " was provided empty, but non empty values are required"); //$NON-NLS-1$
+                }
+            }
+
+            if (Collection.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((Collection<?>) objectToValidate).isEmpty())
+                {
+                    throw new IllegalArgumentException(
+                            methodName + " was provided an empty collection, but a non-empty collection is required"); //$NON-NLS-1$
+                }
+            }
+
+            if (Map.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((Map<?, ?>) objectToValidate).isEmpty())
+                {
+                    throw new IllegalArgumentException(
+                            methodName + " was provided an empty map, but a non-empty map is required"); //$NON-NLS-1$
                 }
             }
         }
@@ -95,7 +144,25 @@ public enum NotParameterValidator
                 if (((Number) objectToValidate).doubleValue() < 0)
                 {
                     throw new IllegalArgumentException(
-                            method.getName() + " was provided negative, but non negative value is required");
+                            method.getName() + " was provided negative, but non negative value is required"); //$NON-NLS-1$
+                }
+            }
+        }
+
+        @Override
+        public void validate(Object objectToValidate, String methodName)
+        {
+            if (objectToValidate == null)
+            {
+                return;
+            }
+
+            if (Number.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((Number) objectToValidate).doubleValue() < 0)
+                {
+                    throw new IllegalArgumentException(
+                            methodName + " was provided negative, but non negative value is required"); //$NON-NLS-1$
                 }
             }
         }
@@ -121,8 +188,26 @@ public enum NotParameterValidator
             {
                 if (((Number) objectToValidate).doubleValue() == 0)
                 {
-                    throw new IllegalArgumentException(method.getName()
-                            + " was provided zero, but non zero value is required");
+                    throw new IllegalArgumentException(
+                            method.getName() + " was provided zero, but non zero value is required"); //$NON-NLS-1$
+                }
+            }
+        }
+
+        @Override
+        public void validate(Object objectToValidate, String methodName)
+        {
+            if (objectToValidate == null)
+            {
+                return;
+            }
+
+            if (Number.class.isAssignableFrom(objectToValidate.getClass()))
+            {
+                if (((Number) objectToValidate).doubleValue() == 0)
+                {
+                    throw new IllegalArgumentException(
+                            methodName + " was provided zero, but non zero value is required"); //$NON-NLS-1$
                 }
             }
         }
@@ -139,5 +224,6 @@ public enum NotParameterValidator
      * @param method
      *            The method that the validation was performed on.
      */
+    @Override
     public abstract void validate(Object objectToValidate, Method method);
 }

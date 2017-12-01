@@ -11,9 +11,6 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
  * <p>
  * Annotation that indicates that the parameter is intended to never be specified as {@code null}.
  * </p>
- * <p>
- * Copyright &copy 2016 Cerner Corporation
- * </p>
  *
  * @author Dustin Singleton
  */
