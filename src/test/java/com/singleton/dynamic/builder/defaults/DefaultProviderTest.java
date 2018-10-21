@@ -22,7 +22,7 @@ import com.singleton.dynamic.builder.annotation.DefaultValue;
  * @author Dustin Singleton
  * @author Prateek Kansal
  */
-@SuppressWarnings({ "javadoc" })
+@SuppressWarnings({ "javadoc", "nls" })
 public class DefaultProviderTest
 {
     private final DefaultProvider defaultProvider = new DefaultProvider();
@@ -107,10 +107,10 @@ public class DefaultProviderTest
 
         assertEquals(null, defaultProvider.getDefaultValue(method));
     }
-    
+
     @Test
     public void testGetDefaultValue_String()
-    {   
+    {
         Method method = EmptyStringAnnotatedObjectBuilder.class.getMethods()[0];
 
         assertEquals("", defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
@@ -121,7 +121,7 @@ public class DefaultProviderTest
     {
         Method method = EmptyCollectionAnnotatedObjectBuilder.class.getMethods()[0];
 
-        assertEquals(new ArrayList(), defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
+        assertEquals(new ArrayList<Object>(), defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class DefaultProviderTest
     {
         Method method = EmptySetAnnotatedObjectBuilder.class.getMethods()[0];
 
-        assertEquals(new HashSet(), defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
+        assertEquals(new HashSet<Object>(), defaultProvider.getDefaultValue(method.getParameterTypes()[0], EMPTY));
     }
 
     @Test
@@ -144,7 +144,7 @@ public class DefaultProviderTest
         Thread.sleep(1);
 
         Date endDate = new Date();
-        
+
         assertTrue(originalDate.after(startDate));
         assertTrue(originalDate.before(endDate));
     }
@@ -188,7 +188,7 @@ public class DefaultProviderTest
     {
         byte getValue();
     }
-    
+
     private interface ObjectObject
     {
         Object getValue();
@@ -198,17 +198,17 @@ public class DefaultProviderTest
     {
         Object stringValue(@DefaultValue(EMPTY) String value);
     }
-    
+
     private interface EmptyCollectionAnnotatedObjectBuilder
     {
         Object collectionValue(@DefaultValue(EMPTY) Collection<?> value);
     }
-    
+
     private interface EmptySetAnnotatedObjectBuilder
     {
         Object setValue(@DefaultValue(EMPTY) Set<?> value);
     }
-    
+
     private interface CurrentDateTimeAnnotatedObjectBuilder
     {
         Object dateValue(@DefaultValue(CURRENT_DATE_TIME) Date value);

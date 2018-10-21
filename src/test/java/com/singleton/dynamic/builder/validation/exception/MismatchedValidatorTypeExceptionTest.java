@@ -10,7 +10,7 @@ import org.junit.Test;
  * 
  * @author Dustin Singleton
  */
-@SuppressWarnings({ "javadoc" })
+@SuppressWarnings({ "javadoc", "nls" })
 public class MismatchedValidatorTypeExceptionTest
 {
     @Test

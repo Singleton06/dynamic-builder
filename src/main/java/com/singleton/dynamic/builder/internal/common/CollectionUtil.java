@@ -31,7 +31,7 @@ public enum CollectionUtil
      * @return the resulting collection, which will have all values from the {@code collectionToCopy}, but could be of a
      *         different implementation.
      */
-    public <T> Collection<T> copyCollection(Collection<T> collectionToCopy)
+    public static <T> Collection<T> copyCollection(Collection<T> collectionToCopy)
     {
         if (collectionToCopy == null)
         {
@@ -54,7 +54,7 @@ public enum CollectionUtil
      * @return the resulting list, which will have all values from the {@code listToCopy}, but could be of a different
      *         implementation.
      */
-    public <T> List<T> copyList(List<T> listToCopy)
+    public static <T> List<T> copyList(List<T> listToCopy)
     {
         if (listToCopy == null)
         {
@@ -77,7 +77,7 @@ public enum CollectionUtil
      * @return the resulting set, which will have all values from the {@code setToCopy}, but could be of a different
      *         implementation.
      */
-    public <T> Set<T> copySet(Set<T> setToCopy)
+    public static <T> Set<T> copySet(Set<T> setToCopy)
     {
         if (setToCopy == null)
         {

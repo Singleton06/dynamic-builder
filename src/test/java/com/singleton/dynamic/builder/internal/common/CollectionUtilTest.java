@@ -16,7 +16,7 @@ import org.junit.Test;
  * 
  * @author Dustin Singleton
  */
-@SuppressWarnings({ "javadoc" })
+@SuppressWarnings({ "javadoc", "nls" })
 public class CollectionUtilTest
 {
     @Test
@@ -41,7 +41,7 @@ public class CollectionUtilTest
         String value2 = "value2";
         Collection<String> originalCollection = Arrays.asList(value1, value2);
 
-        Collection<String> copiedCollection = CollectionUtil.INSTANCE.copyCollection(originalCollection);
+        Collection<String> copiedCollection = CollectionUtil.copyCollection(originalCollection);
 
         assertThat(copiedCollection.size(), is(originalCollection.size()));
         assertThat(copiedCollection, is(originalCollection));
@@ -50,7 +50,7 @@ public class CollectionUtilTest
     @Test
     public void testCopyCollections_emptyValues()
     {
-        assertThat(CollectionUtil.INSTANCE.copyCollection(null).size(), is(0));
+        assertThat(CollectionUtil.copyCollection(null).size(), is(0));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class CollectionUtilTest
         String value2 = "value2";
         List<String> originalList = Arrays.asList(value1, value2);
 
-        List<String> copiedList = CollectionUtil.INSTANCE.copyList(originalList);
+        List<String> copiedList = CollectionUtil.copyList(originalList);
 
         assertThat(copiedList.size(), is(originalList.size()));
         assertThat(copiedList, is(originalList));
@@ -69,7 +69,7 @@ public class CollectionUtilTest
     @Test
     public void testCopyLists_emptyValues()
     {
-        assertThat(CollectionUtil.INSTANCE.copyList(null).size(), is(0));
+        assertThat(CollectionUtil.copyList(null).size(), is(0));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class CollectionUtilTest
         originalSet.add(value1);
         originalSet.add(value2);
 
-        Set<String> copiedSet = CollectionUtil.INSTANCE.copySet(originalSet);
+        Set<String> copiedSet = CollectionUtil.copySet(originalSet);
 
         assertThat(copiedSet.size(), is(originalSet.size()));
         assertThat(copiedSet, is(originalSet));
@@ -90,6 +90,6 @@ public class CollectionUtilTest
     @Test
     public void testCopySets_emptyValues()
     {
-        assertThat(CollectionUtil.INSTANCE.copySet(null).size(), is(0));
+        assertThat(CollectionUtil.copySet(null).size(), is(0));
     }
 }

@@ -18,7 +18,7 @@ import org.junit.Test;
  * 
  * @author Dustin Singleton
  */
-@SuppressWarnings({ "javadoc" })
+@SuppressWarnings({ "javadoc", "nls" })
 public class NotParameterValidatorTest
 {
     private final Method method = InterfaceWithMethod.class.getMethods()[0];
@@ -92,7 +92,8 @@ public class NotParameterValidatorTest
         }
         catch (IllegalArgumentException e)
         {
-            assertThat(e.getMessage(), is(method.getName() + " was provided an empty collection, but a non-empty collection is required"));
+            assertThat(e.getMessage(),
+                    is(method.getName() + " was provided an empty collection, but a non-empty collection is required"));
         }
     }
 
@@ -112,7 +113,8 @@ public class NotParameterValidatorTest
         }
         catch (IllegalArgumentException e)
         {
-            assertThat(e.getMessage(), is(method.getName() + " was provided an empty collection, but a non-empty collection is required"));
+            assertThat(e.getMessage(),
+                    is(method.getName() + " was provided an empty collection, but a non-empty collection is required"));
         }
     }
 
@@ -126,7 +128,8 @@ public class NotParameterValidatorTest
         }
         catch (IllegalArgumentException e)
         {
-            assertThat(e.getMessage(), is(method.getName() + " was provided an empty collection, but a non-empty collection is required"));
+            assertThat(e.getMessage(),
+                    is(method.getName() + " was provided an empty collection, but a non-empty collection is required"));
         }
     }
 
@@ -135,10 +138,10 @@ public class NotParameterValidatorTest
     {
         NotParameterValidator.EMPTY.validate(Collections.singleton(1L), method);
     }
-    
+
     @Test
-    public void testNotEmpty_emptyMapValue() 
-    { 
+    public void testNotEmpty_emptyMapValue()
+    {
         try
         {
             NotParameterValidator.EMPTY.validate(Collections.emptyMap(), method);
@@ -146,16 +149,17 @@ public class NotParameterValidatorTest
         }
         catch (IllegalArgumentException e)
         {
-            assertThat(e.getMessage(), is(method.getName() + " was provided an empty map, but a non-empty map is required"));
+            assertThat(e.getMessage(),
+                    is(method.getName() + " was provided an empty map, but a non-empty map is required"));
         }
     }
-    
+
     @Test
-    public void testNotEmpty_mapWithValues() 
-    { 
+    public void testNotEmpty_mapWithValues()
+    {
         Map<Long, Long> map = new HashMap<Long, Long>();
         map.put(1L, 2L);
-        
+
         NotParameterValidator.EMPTY.validate(map, method);
     }
 

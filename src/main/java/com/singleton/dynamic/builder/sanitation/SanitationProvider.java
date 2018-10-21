@@ -31,13 +31,13 @@ public class SanitationProvider
     }
 
     @SuppressWarnings("rawtypes")
-    private Object getDefaultValueForSpecifiedTypes(Class<?> paramType, SanitizeValueType santizeValueType)
+    private static Object getDefaultValueForSpecifiedTypes(Class<?> paramType, SanitizeValueType santizeValueType)
     {
         if (String.class.isAssignableFrom(paramType))
         {
             if (SanitizeValueType.EMPTY.equals(santizeValueType))
             {
-                return "";
+                return ""; //$NON-NLS-1$
             }
         }
 
