@@ -26,7 +26,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.7.1</version>
+            <version>1.10.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -129,8 +129,8 @@
                 <version>3.5.1</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>

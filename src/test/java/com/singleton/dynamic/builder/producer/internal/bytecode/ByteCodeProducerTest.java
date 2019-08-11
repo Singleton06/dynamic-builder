@@ -10,6 +10,7 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.internal.representation.BuilderPropertyImpl;
 import com.singleton.dynamic.builder.representation.BuilderModel;
 import com.singleton.dynamic.builder.representation.BuilderProperty;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
@@ -22,25 +23,20 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
  * @author Brandon Callison
  */
 @SuppressWarnings({ "javadoc", "nls", "unchecked", "rawtypes" })
-public class ByteCodeProducerTest
-{
+public class ByteCodeProducerTest {
     private BuilderModel model;
     private ByteCodeProducer producer;
 
     @Before
-    public void setUp()
-    {
-        BuilderProperty branchesProperty = mock(BuilderProperty.class);
-        when(branchesProperty.getName()).thenReturn("branches");
-        when(branchesProperty.getType()).thenReturn(int.class);
-        when(branchesProperty.getValidators()).thenReturn(new NotParameterValidator[0]);
+    public void setUp() {
+        BuilderProperty branchesProperty = new BuilderPropertyImpl.Builder().name("branches").type(int.class)
+                .validators(new NotParameterValidator[0]).build();
 
-        BuilderProperty typeProperty = mock(BuilderProperty.class);
-        when(typeProperty.getName()).thenReturn("type");
-        when(typeProperty.getType()).thenReturn(String.class);
-        when(typeProperty.getValidators()).thenReturn(new NotParameterValidator[0]);
+        BuilderProperty typeProperty = new BuilderPropertyImpl.Builder().name("type").type(String.class)
+                .validators(new NotParameterValidator[0]).build();
 
         model = mock(BuilderModel.class);
+        
         when(model.getBuilderType()).thenReturn((Class) TreeBuilder.class);
         when(model.getResultType()).thenReturn((Class) Tree.class);
         when(model.getProperties()).thenReturn(Arrays.asList(branchesProperty, typeProperty));
@@ -49,8 +45,7 @@ public class ByteCodeProducerTest
     }
 
     @Test
-    public void test() throws NoSuchFieldException, SecurityException, InstantiationException, IllegalAccessException
-    {
+    public void test() throws NoSuchFieldException, SecurityException, InstantiationException, IllegalAccessException {
         Class<TreeBuilder> builderClass = (Class<TreeBuilder>) producer.produceBuilder(model);
         TreeBuilder treeBuilder = builderClass.newInstance();
 
@@ -63,8 +58,7 @@ public class ByteCodeProducerTest
         assertThat(tree.getType(), is("Birch"));
     }
 
-    private static interface TreeBuilder
-    {
+    private static interface TreeBuilder {
         TreeBuilder branches(int branches);
 
         TreeBuilder type(String type);
@@ -72,8 +66,7 @@ public class ByteCodeProducerTest
         Tree build();
     }
 
-    private interface Tree
-    {
+    private interface Tree {
         String getType();
 
         int getBranches();

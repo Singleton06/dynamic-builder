@@ -3,9 +3,7 @@ package com.singleton.dynamic.builder.representation;
 import java.util.List;
 
 /**
- * <p>
  * Representatin of a builder.
- * </p>
  *
  * @author Brandon Callison
  */
