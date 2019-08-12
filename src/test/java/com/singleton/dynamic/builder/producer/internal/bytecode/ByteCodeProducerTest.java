@@ -58,7 +58,7 @@ public class ByteCodeProducerTest {
         assertThat(tree.getType(), is("Birch"));
     }
 
-    private static interface TreeBuilder {
+    public static interface TreeBuilder {
         TreeBuilder branches(int branches);
 
         TreeBuilder type(String type);
@@ -66,7 +66,7 @@ public class ByteCodeProducerTest {
         Tree build();
     }
 
-    private interface Tree {
+    public interface Tree {
         String getType();
 
         int getBranches();

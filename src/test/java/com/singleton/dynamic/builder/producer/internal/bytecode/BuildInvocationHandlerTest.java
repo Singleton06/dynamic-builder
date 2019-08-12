@@ -66,7 +66,7 @@ public class BuildInvocationHandlerTest
     }
 
     @SuppressWarnings("unused")
-    private static class TreeBuilder
+    public static class TreeBuilder
     {
         public String type;
         public int branches;
@@ -77,7 +77,7 @@ public class BuildInvocationHandlerTest
         }
     }
 
-    private interface Tree
+    public interface Tree
     {
         String getType();
 
