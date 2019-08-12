@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test class to validate that an argument to a builder method can be declared as not to have zero value and it will be
@@ -20,7 +20,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class NotZeroTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test
     public void testNotZero_ValueZero()
@@ -49,26 +49,26 @@ public class NotZeroTest
                 .getIntegerValue(), is((Integer) null));
     }
 
-    private interface NotZeroObjectBuilder
+    public interface NotZeroObjectBuilder
     {
         NotZeroObjectBuilder intValue(@Not({ ZERO }) int value);
 
         NotZeroObject build();
     }
 
-    private interface NotZeroObject
+    public interface NotZeroObject
     {
         int getIntValue();
     }
 
-    private interface NotZeroNullObjectBuilder
+    public interface NotZeroNullObjectBuilder
     {
         NotZeroNullObjectBuilder integerValue(@Not({ ZERO }) Integer value);
 
         NotZeroNullObject build();
     }
 
-    private interface NotZeroNullObject
+    public interface NotZeroNullObject
     {
         Integer getIntegerValue();
     }

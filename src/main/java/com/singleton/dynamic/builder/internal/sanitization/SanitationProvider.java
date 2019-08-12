@@ -1,4 +1,4 @@
-package com.singleton.dynamic.builder.sanitation;
+package com.singleton.dynamic.builder.internal.sanitization;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.singleton.dynamic.builder.annotation.SanitizeValue;
-
+import com.singleton.dynamic.builder.sanitation.SanitizeValueType;
+// TODO: this is missing unit tests
 /**
  * API to sanitize the builder method inputs.
  *

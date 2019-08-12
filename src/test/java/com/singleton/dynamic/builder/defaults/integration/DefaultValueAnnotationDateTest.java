@@ -7,8 +7,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.DefaultValue;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test to validate that if builder methods of parameter type {@link Date} is not called then specified default value is
@@ -25,7 +25,7 @@ public class DefaultValueAnnotationDateTest
         Date beginDate = new Date();
         Thread.sleep(1);
 
-        Date actualDate = new ProxyBuilderFactory().createBuilderForClass(DefaultValueDateObjectBuilder.class)
+        Date actualDate = DynamicBuilderFactory.getInstance().createBuilderForClass(DefaultValueDateObjectBuilder.class)
                 .intValue(2).build().getDateValue();
         Thread.sleep(1);
 
@@ -35,7 +35,7 @@ public class DefaultValueAnnotationDateTest
         assertTrue(actualDate.before(endDate));
     }
 
-    private interface DefaultValueDateObjectBuilder
+    public interface DefaultValueDateObjectBuilder
     {
         DefaultValueDateObjectBuilder dateValue(@DefaultValue(CURRENT_DATE_TIME) Date value);
 
@@ -44,7 +44,7 @@ public class DefaultValueAnnotationDateTest
         DefaultValueDateObject build();
     }
 
-    private interface DefaultValueDateObject
+    public interface DefaultValueDateObject
     {
         Date getDateValue();
 

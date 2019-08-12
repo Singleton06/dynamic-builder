@@ -10,22 +10,20 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.singleton.dynamic.builder.representation.BuilderProperty;
-
 /**
  * <p>
- * Tests for {@link BuilderModelImpl}.
+ * Tests for {@link BuilderModel}.
  * </p>
  *
  * @author Brandon Callison
  */
 @SuppressWarnings({ "javadoc" })
-public class BuilderModelImplTest
+public class BuilderModelTest
 {
     private static final Class<?> BUILDER_TYPE = Integer.class;
     private static final Class<?> RESULT_TYPE = String.class;
     private static final BuilderProperty BUILDER_PROPERTY = mock(BuilderProperty.class);
-    private final BuilderModelImpl.Builder builder = new BuilderModelImpl.Builder();
+    private final BuilderModel.Builder builder = new BuilderModel.Builder();
 
     @Before
     public void setUp()
@@ -37,7 +35,7 @@ public class BuilderModelImplTest
     @Test
     public void testBuild()
     {
-        BuilderModelImpl model = builder.build();
+        BuilderModel model = builder.build();
 
         assertThat((Class) model.getBuilderType(), is(equalTo((Class) BUILDER_TYPE)));
         assertThat((Class) model.getResultType(), is(equalTo((Class) RESULT_TYPE)));

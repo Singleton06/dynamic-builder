@@ -8,28 +8,25 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.DefaultValue;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
- * Test to validate that if builder methods of parameter type {@link Collection} is not called then specified default
- * value is used.
+ * Test to validate that if builder methods of parameter type {@link Collection}
+ * is not called then specified default value is used.
  *
  * @author Prateek Kansal
  */
 @SuppressWarnings("javadoc")
-public class DefaultValueAnnotationCollectionTest
-{
+public class DefaultValueAnnotationCollectionTest {
     @Test
-    public void testDefaultValueAnnotation_forEmptyCollection()
-    {
+    public void testDefaultValueAnnotation_forEmptyCollection() {
         assertEquals(new ArrayList<Object>(),
-                new ProxyBuilderFactory().createBuilderForClass(DefaultValueCollectionObjectBuilder.class).intValue(1)
-                        .build().getCollectionValue());
+                DynamicBuilderFactory.getInstance().createBuilderForClass(DefaultValueCollectionObjectBuilder.class)
+                        .intValue(1).build().getCollectionValue());
     }
 
-    private interface DefaultValueCollectionObjectBuilder
-    {
+    public interface DefaultValueCollectionObjectBuilder {
         DefaultValueCollectionObjectBuilder collectionValue(@DefaultValue(EMPTY) Collection<?> value);
 
         DefaultValueCollectionObjectBuilder intValue(int value);
@@ -37,8 +34,7 @@ public class DefaultValueAnnotationCollectionTest
         DefaultValueCollectionObject build();
     }
 
-    private interface DefaultValueCollectionObject
-
+    public interface DefaultValueCollectionObject
     {
         Collection<?> getCollectionValue();
 

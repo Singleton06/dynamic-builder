@@ -13,8 +13,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Immutable;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test to ensure that the {@link Immutable} annotation functions as expected.
@@ -22,14 +22,12 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
  * @author Dustin Singleton
  */
 @SuppressWarnings({ "javadoc", "nls" })
-public class SetImmutabilityTest
-{
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+public class SetImmutabilityTest {
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
     private final Builder builder = factory.createBuilderForClass(Builder.class);
 
     @Test
-    public void testBuilderImmutability_withImmutableAnnotation()
-    {
+    public void testBuilderImmutability_withImmutableAnnotation() {
         Set<String> originalSet = new HashSet<String>(Arrays.asList("String1", "String2"));
         Set<String> setToModify = new HashSet<String>(originalSet);
 
@@ -51,16 +49,14 @@ public class SetImmutabilityTest
     }
 
     @Test
-    public void testBuilderImmutability_nullSetWithImmutableAnnotation()
-    {
+    public void testBuilderImmutability_nullSetWithImmutableAnnotation() {
         BuiltObject builtObject = builder.immutableSetValue(null).build();
 
         assertThat(builtObject.getImmutableSetValue(), is(nullValue()));
     }
 
     @Test
-    public void testBuilderImmutability_withoutImmutableAnnotation()
-    {
+    public void testBuilderImmutability_withoutImmutableAnnotation() {
         Set<String> originalSet = new HashSet<String>(Arrays.asList("String1", "String2"));
         Set<String> setToModify = new HashSet<String>(originalSet);
 
@@ -82,15 +78,13 @@ public class SetImmutabilityTest
     }
 
     @Test
-    public void testBuilderImmutability_nullSetWithoutImmutableAnnotation()
-    {
+    public void testBuilderImmutability_nullSetWithoutImmutableAnnotation() {
         BuiltObject builtObject = builder.mutableSetValue(null).build();
 
         assertThat(builtObject.getMutableSetValue(), is(nullValue()));
     }
 
-    private interface Builder
-    {
+    public interface Builder {
         Builder mutableSetValue(Set<String> set);
 
         Builder immutableSetValue(@Immutable Set<String> set);
@@ -98,8 +92,7 @@ public class SetImmutabilityTest
         BuiltObject build();
     }
 
-    private interface BuiltObject
-    {
+    public interface BuiltObject {
         Set<String> getMutableSetValue();
 
         Set<String> getImmutableSetValue();

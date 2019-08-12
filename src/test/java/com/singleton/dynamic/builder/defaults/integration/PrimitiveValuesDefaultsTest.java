@@ -5,7 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 
 /**
  * Test class to ensure that primitives values (when not set) will still the
@@ -25,7 +25,7 @@ public class PrimitiveValuesDefaultsTest
     private char uninitializedCharValue;
     private byte uninitializedByteValue;
 
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test
     public void testBooleanDefaultValues()
@@ -91,98 +91,98 @@ public class PrimitiveValuesDefaultsTest
         assertThat(builder.build().getValue(), is(uninitializedByteValue));
     }
 
-    private interface BooleanBuilder
+    public interface BooleanBuilder
     {
         BooleanBuilder value(boolean id);
 
         BooleanObject build();
     }
 
-    private interface BooleanObject
+    public interface BooleanObject
     {
         boolean getValue();
     }
 
-    private interface DoubleBuilder
+    public interface DoubleBuilder
     {
         DoubleBuilder value(double id);
 
         DoubleObject build();
     }
 
-    private interface DoubleObject
+    public interface DoubleObject
     {
         double getValue();
     }
 
-    private interface FloatBuilder
+    public interface FloatBuilder
     {
         FloatBuilder value(float id);
 
         FloatObject build();
     }
 
-    private interface FloatObject
+    public interface FloatObject
     {
         float getValue();
     }
 
-    private interface LongBuilder
+    public interface LongBuilder
     {
         LongBuilder value(long id);
 
         LongObject build();
     }
 
-    private interface LongObject
+    public interface LongObject
     {
         long getValue();
     }
 
-    private interface IntBuilder
+    public interface IntBuilder
     {
         IntBuilder value(int id);
 
         IntObject build();
     }
 
-    private interface IntObject
+    public interface IntObject
     {
         int getValue();
     }
 
-    private interface ShortBuilder
+    public interface ShortBuilder
     {
         ShortBuilder value(short id);
 
         ShortObject build();
     }
 
-    private interface ShortObject
+    public interface ShortObject
     {
         short getValue();
     }
 
-    private interface CharBuilder
+    public interface CharBuilder
     {
         CharBuilder value(char id);
 
         CharObject build();
     }
 
-    private interface CharObject
+    public interface CharObject
     {
         char getValue();
     }
 
-    private interface ByteBuilder
+    public interface ByteBuilder
     {
         ByteBuilder value(byte id);
 
         ByteObject build();
     }
 
-    private interface ByteObject
+    public interface ByteObject
     {
         byte getValue();
     }

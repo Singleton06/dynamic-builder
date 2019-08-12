@@ -7,8 +7,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test class to validate that an argument to a builder method can be declared as not negative and it will be enforced.
@@ -19,7 +19,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class NotNegativeTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test
     public void testNotNegative_ValueNegative()
@@ -42,26 +42,26 @@ public class NotNegativeTest
                 .getIntegerValue(), is((Integer) null));
     }
 
-    private interface NotNegativeObjectBuilder
+    public interface NotNegativeObjectBuilder
     {
         NotNegativeObjectBuilder intValue(@Not({ NEGATIVE }) int value);
 
         NotNegativeObject build();
     }
 
-    private interface NotNegativeObject
+    public interface NotNegativeObject
     {
         int getIntValue();
     }
 
-    private interface NotNegativeNullObjectBuilder
+    public interface NotNegativeNullObjectBuilder
     {
         NotNegativeNullObjectBuilder integerValue(@Not({ NEGATIVE }) Integer value);
 
         NotNegativeNullObject build();
     }
 
-    private interface NotNegativeNullObject
+    public interface NotNegativeNullObject
     {
         Integer getIntegerValue();
     }

@@ -12,19 +12,19 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
  * <p>
- * Tests for {@link BuilderPropertyImpl}.
+ * Tests for {@link BuilderProperty}.
  * </p>
  *
  * @author Brandon Callison
  */
 @SuppressWarnings({ "javadoc", "nls" })
-public class BuilderPropertyImplTest
+public class BuilderPropertyTest
 {
     private static final String PROPERTY_NAME = "prop";
     private static final Type PROPERTY_TYPE = Integer.class;
     private static final NotParameterValidator[] validators = new NotParameterValidator[] {
             NotParameterValidator.EMPTY };
-    private final BuilderPropertyImpl.Builder builder = new BuilderPropertyImpl.Builder();
+    private final BuilderProperty.Builder builder = new BuilderProperty.Builder();
 
     @Before
     public void setUp()
@@ -35,7 +35,7 @@ public class BuilderPropertyImplTest
     @Test
     public void testBuild()
     {
-        BuilderPropertyImpl property = builder.build();
+        BuilderProperty property = builder.build();
 
         assertThat(property.getName(), is(PROPERTY_NAME));
         assertThat(property.getType(), is(PROPERTY_TYPE));

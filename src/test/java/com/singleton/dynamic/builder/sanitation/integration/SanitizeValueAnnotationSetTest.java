@@ -8,8 +8,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.SanitizeValue;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test to validate the sanitize annotation for the builder method parameter of type {@link Set}.
@@ -22,18 +22,18 @@ public class SanitizeValueAnnotationSetTest
     @Test
     public void testSanitizeSet_EmptyValue()
     {
-        assertEquals(new HashSet<Object>(), new ProxyBuilderFactory()
+        assertEquals(new HashSet<Object>(), DynamicBuilderFactory.getInstance()
                 .createBuilderForClass(SanitizeSetValueObjectBuilder.class).setValue(null).build().getSetValue());
     }
 
-    private interface SanitizeSetValueObjectBuilder
+    public interface SanitizeSetValueObjectBuilder
     {
         SanitizeSetValueObjectBuilder setValue(@SanitizeValue(EMPTY) Set<?> value);
 
         SanitizeSetValueObject build();
     }
 
-    private interface SanitizeSetValueObject
+    public interface SanitizeSetValueObject
     {
         Set<?> getSetValue();
     }

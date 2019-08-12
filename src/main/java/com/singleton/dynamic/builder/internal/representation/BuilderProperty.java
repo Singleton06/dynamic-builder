@@ -3,7 +3,6 @@ package com.singleton.dynamic.builder.internal.representation;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
-import com.singleton.dynamic.builder.representation.BuilderProperty;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
@@ -13,32 +12,38 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
  *
  * @author Brandon Callison
  */
-public class BuilderPropertyImpl implements BuilderProperty
+public class BuilderProperty
 {
     private final String name;
     private final Type type;
     private final NotParameterValidator[] validators;
 
-    private BuilderPropertyImpl(Builder builder)
+    private BuilderProperty(Builder builder)
     {
         name = builder.name;
         type = builder.type;
         validators = builder.validators;
     }
 
-    @Override
+    /**
+     * @return The name of the property.
+     */
     public String getName()
     {
         return name;
     }
 
-    @Override
+    /**
+     * @return The type of the property.
+     */
     public Type getType()
     {
         return type;
     }
 
-    @Override
+    /**
+     * @return Any validators which must be evaluated against the property.
+     */
     public NotParameterValidator[] getValidators()
     {
         return validators;
@@ -53,7 +58,7 @@ public class BuilderPropertyImpl implements BuilderProperty
 
     /**
      * <p>
-     * Builder for {@link BuilderPropertyImpl}.
+     * Builder for {@link BuilderProperty}.
      * </p>
      *
      * @author Brandon Callison
@@ -107,13 +112,13 @@ public class BuilderPropertyImpl implements BuilderProperty
         }
 
         /**
-         * Builds a new instance of {@link BuilderPropertyImpl} using the parameters in this builder.
+         * Builds a new instance of {@link BuilderProperty} using the parameters in this builder.
          * 
-         * @return New instance of {@link BuilderPropertyImpl}.
+         * @return New instance of {@link BuilderProperty}.
          */
-        public BuilderPropertyImpl build()
+        public BuilderProperty build()
         {
-            return new BuilderPropertyImpl(this);
+            return new BuilderProperty(this);
         }
     }
 }

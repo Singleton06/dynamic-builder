@@ -9,17 +9,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.producer.BuilderManufacturer;
+import com.singleton.dynamic.builder.producer.ByteCodeDynamicBuilderFactory;
 
 /**
- * Test class for {@link BuilderManufacturer}.
+ * Test class for {@link ByteCodeDynamicBuilderFactory}.
  * 
  * @author Brandon Callison
  */
 @SuppressWarnings({ "javadoc", "nls" })
 public class BuilderManufacturerTest
 {
-    private static BuilderManufacturer factory = new BuilderManufacturer();
+    private static ByteCodeDynamicBuilderFactory factory = new ByteCodeDynamicBuilderFactory();
 
     @BeforeClass
     public static void setUpClass()

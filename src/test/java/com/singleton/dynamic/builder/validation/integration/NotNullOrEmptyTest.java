@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * <p>
@@ -25,7 +25,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class NotNullOrEmptyTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test(expected = IllegalArgumentException.class)
     public void testNotEmptyNotNull_nullStringNotAllowed()
@@ -95,38 +95,38 @@ public class NotNullOrEmptyTest
         assertThat(actualValue, is(map));
     }
 
-    private interface NotNullOrEmptyCollectionBuilder
+    public interface NotNullOrEmptyCollectionBuilder
     {
         NotNullOrEmptyCollectionBuilder collectionValue(@Not({ NULL, EMPTY }) Collection<Long> collectionValue);
 
         NotNullOrEmptyCollectionBuiltObject build();
     }
 
-    private interface NotNullOrEmptyCollectionBuiltObject
+    public interface NotNullOrEmptyCollectionBuiltObject
     {
         Collection<Long> getCollectionValue();
     }
 
-    private interface NotNullOrEmptyMapBuilder
+    public interface NotNullOrEmptyMapBuilder
     {
         NotNullOrEmptyMapBuilder mapValue(@Not({ NULL, EMPTY }) Map<Long, Long> mapValue);
 
         NotNullOrEmptyMapBuiltObject build();
     }
 
-    private interface NotNullOrEmptyMapBuiltObject
+    public interface NotNullOrEmptyMapBuiltObject
     {
         Map<Long, Long> getMapValue();
     }
 
-    private interface NotNullOrEmptStringBuilder
+    public interface NotNullOrEmptStringBuilder
     {
         NotNullOrEmptStringBuilder stringValue(@Not({ NULL, EMPTY }) String value);
 
         NotNullOrEmptyStringBuiltObject build();
     }
 
-    private interface NotNullOrEmptyStringBuiltObject
+    public interface NotNullOrEmptyStringBuiltObject
     {
         String getStringValue();
     }

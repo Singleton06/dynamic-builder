@@ -6,8 +6,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Required;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test class to validate that if any method with {@link Required} annotation on the builder class is not called then it
@@ -19,7 +19,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class RequiredMethodTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test
     public void testBuilderMethod_IsRequired()
@@ -36,7 +36,7 @@ public class RequiredMethodTest
         }
     }
 
-    private interface RequiredMethodObjectBuilder
+    public interface RequiredMethodObjectBuilder
     {
 
         RequiredMethodObjectBuilder stringValue(String value);
@@ -47,7 +47,7 @@ public class RequiredMethodTest
         RequiredMethodObject build();
     }
 
-    private interface RequiredMethodObject
+    public interface RequiredMethodObject
     {
         String getStringValue();
 

@@ -5,17 +5,15 @@ import java.util.Map;
 
 import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.internal.inspection.AnnotationInspector;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
 import com.singleton.dynamic.builder.producer.internal.bytecode.ByteCodeProducer;
-import com.singleton.dynamic.builder.representation.BuilderModel;
 
 /**
- * <p>
  * Creates builders using bytecode generation.
- * </p>
  *
  * @author Brandon Callison
  */
-public class BuilderManufacturer implements DynamicBuilderFactory
+public class ByteCodeDynamicBuilderFactory implements DynamicBuilderFactory
 {
     private final Map<Class<?>, Class<?>> builderImplementations = new HashMap<Class<?>, Class<?>>();
 

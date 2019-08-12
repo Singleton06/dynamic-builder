@@ -2,9 +2,6 @@ package com.singleton.dynamic.builder.internal.representation;
 
 import java.util.List;
 
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
-
 /**
  * <p>
  * Implementation of {@link BuilderModel}.
@@ -12,32 +9,38 @@ import com.singleton.dynamic.builder.representation.BuilderProperty;
  *
  * @author Brandon Callison
  */
-public class BuilderModelImpl implements BuilderModel
+public class BuilderModel
 {
     private Class<?> builderType;
     private Class<?> resultType;
     private List<BuilderProperty> properties;
 
-    private BuilderModelImpl(Builder builder)
+    private BuilderModel(Builder builder)
     {
         properties = builder.properties;
         resultType = builder.resultType;
         builderType = builder.builderType;
     }
 
-    @Override
+    /**
+     * @return The interface that defines the builder contract.
+     */
     public Class<?> getBuilderType()
     {
         return builderType;
     }
 
-    @Override
+    /**
+     * @return The type of object being built.
+     */
     public Class<?> getResultType()
     {
         return resultType;
     }
 
-    @Override
+    /**
+     * @return The properties that may be assigned using this builder.
+     */
     public List<BuilderProperty> getProperties()
     {
         return properties;
@@ -52,7 +55,7 @@ public class BuilderModelImpl implements BuilderModel
 
     /**
      * <p>
-     * Builder for {@link BuilderModelImpl}.
+     * Builder for {@link BuilderModel}.
      * </p>
      *
      * @author Brandon Callison
@@ -105,13 +108,13 @@ public class BuilderModelImpl implements BuilderModel
         }
 
         /**
-         * Build a new instance of {@link BuilderModelImpl} using the properties in this builder.
+         * Build a new instance of {@link BuilderModel} using the properties in this builder.
          * 
-         * @return New instance of {@link BuilderModelImpl}.
+         * @return New instance of {@link BuilderModel}.
          */
-        public BuilderModelImpl build()
+        public BuilderModel build()
         {
-            return new BuilderModelImpl(this);
+            return new BuilderModel(this);
         }
     }
 

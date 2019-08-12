@@ -8,8 +8,8 @@ import java.lang.reflect.Type;
 
 import org.junit.Test;
 
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
+import com.singleton.dynamic.builder.internal.representation.BuilderProperty;
 
 /**
  * <p>

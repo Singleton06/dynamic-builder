@@ -10,9 +10,8 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.singleton.dynamic.builder.internal.representation.BuilderPropertyImpl;
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
+import com.singleton.dynamic.builder.internal.representation.BuilderProperty;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
@@ -29,10 +28,10 @@ public class ByteCodeProducerTest {
 
     @Before
     public void setUp() {
-        BuilderProperty branchesProperty = new BuilderPropertyImpl.Builder().name("branches").type(int.class)
+        BuilderProperty branchesProperty = new BuilderProperty.Builder().name("branches").type(int.class)
                 .validators(new NotParameterValidator[0]).build();
 
-        BuilderProperty typeProperty = new BuilderPropertyImpl.Builder().name("type").type(String.class)
+        BuilderProperty typeProperty = new BuilderProperty.Builder().name("type").type(String.class)
                 .validators(new NotParameterValidator[0]).build();
 
         model = mock(BuilderModel.class);

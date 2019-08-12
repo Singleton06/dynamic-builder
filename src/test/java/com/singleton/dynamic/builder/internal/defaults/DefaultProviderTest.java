@@ -1,4 +1,4 @@
-package com.singleton.dynamic.builder.defaults;
+package com.singleton.dynamic.builder.internal.defaults;
 
 import static com.singleton.dynamic.builder.defaults.DefaultValueType.CURRENT_DATE_TIME;
 import static com.singleton.dynamic.builder.defaults.DefaultValueType.EMPTY;
@@ -15,6 +15,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.singleton.dynamic.builder.annotation.DefaultValue;
+import com.singleton.dynamic.builder.internal.defaults.DefaultProvider;
 
 /**
  * Test class for {@link DefaultProvider}.

@@ -9,8 +9,8 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.SanitizeValue;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test to validate the sanitize annotation for the builder method parameter of type {@link Collection}.
@@ -20,11 +20,13 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class SanitizeValueAnnotationCollectionTest
 {
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
+    
     @Test
     public void testSanitizeCollection_EmptyValue()
     {
         assertEquals(new ArrayList<Object>(),
-                new ProxyBuilderFactory().createBuilderForClass(SantizeCollectionEmptyObjectBuilder.class)
+                factory.createBuilderForClass(SantizeCollectionEmptyObjectBuilder.class)
                         .collectionValue(null).build().getCollectionValue());
     }
 
@@ -38,24 +40,23 @@ public class SanitizeValueAnnotationCollectionTest
 
         assertEquals(inputCollectionValue.size(), 3);
         assertEquals(1,
-                new ProxyBuilderFactory().createBuilderForClass(SantizeCollectionNullElementsObjectBuilder.class)
+                factory.createBuilderForClass(SantizeCollectionNullElementsObjectBuilder.class)
                         .collectionValue(inputCollectionValue).build().getCollectionValue().size());
     }
 
-    private interface SantizeCollectionEmptyObjectBuilder
+    public interface SantizeCollectionEmptyObjectBuilder
     {
         SantizeCollectionEmptyObjectBuilder collectionValue(@SanitizeValue(EMPTY) Collection<?> value);
 
         SantizeCollectionEmptyObject build();
     }
 
-    private interface SantizeCollectionEmptyObject
-
+    public interface SantizeCollectionEmptyObject
     {
         Collection<?> getCollectionValue();
     }
 
-    private interface SantizeCollectionNullElementsObjectBuilder
+    public interface SantizeCollectionNullElementsObjectBuilder
     {
         SantizeCollectionNullElementsObjectBuilder collectionValue(
                 @SanitizeValue(IGNORE_NULL_ELEMENTS) Collection<?> value);
@@ -63,7 +64,7 @@ public class SanitizeValueAnnotationCollectionTest
         SantizeCollectionNullElementsObject build();
     }
 
-    private interface SantizeCollectionNullElementsObject
+    public interface SantizeCollectionNullElementsObject
     {
         Collection<?> getCollectionValue();
     }

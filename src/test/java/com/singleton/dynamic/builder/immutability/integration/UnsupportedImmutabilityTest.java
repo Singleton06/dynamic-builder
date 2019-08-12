@@ -5,8 +5,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Immutable;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test class to ensure that the dynamic builder will just do a pass through when an unsupported type is specified to be
@@ -14,10 +14,10 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
  * 
  * @author Dustin Singleton
  */
-@SuppressWarnings({ "javadoc", "nls" })
+@SuppressWarnings({ "javadoc" })
 public class UnsupportedImmutabilityTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
     private final Builder builder = factory.createBuilderForClass(Builder.class);
 
     @Test
@@ -26,14 +26,14 @@ public class UnsupportedImmutabilityTest
         assertThat(builder.immutableStringValue("testing").build().getImmutableStringValue(), is("testing"));
     }
 
-    private interface Builder
+    public interface Builder
     {
         Builder immutableStringValue(@Immutable String string);
 
         BuiltObject build();
     }
 
-    private interface BuiltObject
+    public interface BuiltObject
     {
         String getImmutableStringValue();
     }

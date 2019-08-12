@@ -5,9 +5,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.singleton.dynamic.builder.producer.Producer;
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
+import com.singleton.dynamic.builder.internal.representation.BuilderProperty;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 import com.singleton.dynamic.builder.validation.Validator;
 
@@ -39,13 +38,23 @@ import net.bytebuddy.matcher.ElementMatchers;
  *
  * @author Brandon Callison
  */
-public class ByteCodeProducer implements Producer
+public class ByteCodeProducer
 {
     private static final String BUILD_METHOD_NAME = "build"; //$NON-NLS-1$
 
     private BuildInvocationHandler buildInvocationHandler;
 
-    @Override
+    /**
+     * Produces a class that, when instantiated, performs builder behavior as specified in {@code builderModel}.
+     * 
+     * @param builderModel
+     *            The representation of the builder to produce.
+     * @return Class that instantiates the builder.
+     * @throws NoSuchFieldException
+     *             If reflection is unable to read the builder methods.
+     * @throws SecurityException
+     *             If reflection is unable to read the builder methods.
+     */
     public Class<?> produceBuilder(BuilderModel builderModel) throws NoSuchFieldException, SecurityException
     {
         if (buildInvocationHandler == null)

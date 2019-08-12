@@ -8,8 +8,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Immutable;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test class to ensure that immutability functionality works correctly for Date objects.
@@ -19,7 +19,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc" })
 public class DateImmutabilityTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
     private final Builder builder = factory.createBuilderForClass(Builder.class);
 
     @Test
@@ -63,7 +63,7 @@ public class DateImmutabilityTest
         assertThat(builtObject.getImmutableDateValue(), is(nullValue()));
     }
 
-    private interface Builder
+    public interface Builder
     {
         Builder nonImmutableDateValue(Date date);
 
@@ -72,7 +72,7 @@ public class DateImmutabilityTest
         BuiltObject build();
     }
 
-    private interface BuiltObject
+    public interface BuiltObject
     {
         Date getNonImmutableDateValue();
 

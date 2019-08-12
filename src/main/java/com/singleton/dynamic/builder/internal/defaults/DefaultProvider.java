@@ -1,4 +1,4 @@
-package com.singleton.dynamic.builder.defaults;
+package com.singleton.dynamic.builder.internal.defaults;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.singleton.dynamic.builder.annotation.DefaultValue;
+import com.singleton.dynamic.builder.defaults.DefaultValueType;
 
 /**
  * API to provide default values based on the provided method.

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
+import com.singleton.dynamic.builder.internal.representation.BuilderProperty;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.description.field.FieldDescription.InDefinedShape;

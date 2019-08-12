@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Immutable;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test to ensure that the {@link Immutable} annotation functions as expected.
@@ -23,7 +23,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class ListImmutabilityTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
     private final Builder builder = factory.createBuilderForClass(Builder.class);
 
     @Test
@@ -78,7 +78,7 @@ public class ListImmutabilityTest
         assertThat(builtObject.getMutableListValue(), is(nullValue()));
     }
 
-    private interface Builder
+    public interface Builder
     {
         Builder mutableListValue(List<String> list);
 
@@ -87,7 +87,7 @@ public class ListImmutabilityTest
         BuiltObject build();
     }
 
-    private interface BuiltObject
+    public interface BuiltObject
     {
         List<String> getMutableListValue();
 

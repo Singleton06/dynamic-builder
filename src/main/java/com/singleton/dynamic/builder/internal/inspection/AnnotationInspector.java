@@ -7,10 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.internal.representation.BuilderModelImpl;
-import com.singleton.dynamic.builder.internal.representation.BuilderPropertyImpl;
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
+import com.singleton.dynamic.builder.internal.representation.BuilderProperty;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
@@ -37,7 +35,7 @@ public class AnnotationInspector
      */
     public BuilderModel inspectBuilder(Class<?> builderClass) throws NoSuchMethodException, SecurityException
     {
-        return new BuilderModelImpl.Builder().builderType(builderClass).resultType(getResultType(builderClass))
+        return new BuilderModel.Builder().builderType(builderClass).resultType(getResultType(builderClass))
                 .properties(inspectForProperties(builderClass)).build();
     }
 
@@ -63,7 +61,7 @@ public class AnnotationInspector
 
     private static BuilderProperty createProperty(Method method)
     {
-        return new BuilderPropertyImpl.Builder().name(method.getName()).type(method.getParameterTypes()[0])
+        return new BuilderProperty.Builder().name(method.getName()).type(method.getParameterTypes()[0])
                 .validators(getValidators(method)).build();
     }
 

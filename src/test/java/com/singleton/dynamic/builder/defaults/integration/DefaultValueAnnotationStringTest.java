@@ -5,27 +5,24 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.DefaultValue;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
- * Test to validate that if builder methods of parameter type {@link String} is not called then specified default value
- * is used.
+ * Test to validate that if builder methods of parameter type {@link String} is
+ * not called then specified default value is used.
  *
  * @author Prateek Kansal
  */
 @SuppressWarnings({ "javadoc", "nls" })
-public class DefaultValueAnnotationStringTest
-{
+public class DefaultValueAnnotationStringTest {
     @Test
-    public void testDefaultValueAnnotation_forEmptyString()
-    {
-        assertEquals("", new ProxyBuilderFactory().createBuilderForClass(StringDefaultValueObjectBuilder.class)
-                .intValue(1).build().getStringValue());
+    public void testDefaultValueAnnotation_forEmptyString() {
+        assertEquals("", DynamicBuilderFactory.getInstance()
+                .createBuilderForClass(StringDefaultValueObjectBuilder.class).intValue(1).build().getStringValue());
     }
 
-    private interface StringDefaultValueObjectBuilder
-    {
+    public interface StringDefaultValueObjectBuilder {
         StringDefaultValueObjectBuilder stringValue(@DefaultValue(EMPTY) String value);
 
         StringDefaultValueObjectBuilder intValue(int value);
@@ -33,8 +30,7 @@ public class DefaultValueAnnotationStringTest
         StringDefaultValueObject build();
     }
 
-    private interface StringDefaultValueObject
-    {
+    public interface StringDefaultValueObject {
         String getStringValue();
 
         int getIntValue();

@@ -13,8 +13,8 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Immutable;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test to ensure that the {@link Immutable} annotation functions as expected.
@@ -22,14 +22,12 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
  * @author Dustin Singleton
  */
 @SuppressWarnings({ "javadoc", "nls" })
-public class CollectionImmutabilityTest
-{
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+public class CollectionImmutabilityTest {
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
     private final Builder builder = factory.createBuilderForClass(Builder.class);
 
     @Test
-    public void testBuilderImmutability_withImmutableAnnotation()
-    {
+    public void testBuilderImmutability_withImmutableAnnotation() {
         Collection<String> originalCollection = Arrays.asList("String1", "String2");
         Collection<String> collectionToModify = new ArrayList<String>(originalCollection);
 
@@ -51,16 +49,14 @@ public class CollectionImmutabilityTest
     }
 
     @Test
-    public void testBuilderImmutability_nullCollectionWithImmutableAnnotation()
-    {
+    public void testBuilderImmutability_nullCollectionWithImmutableAnnotation() {
         BuiltObject builtObject = builder.immutableCollectionValue(null).build();
 
         assertThat(builtObject.getImmutableCollectionValue(), is(nullValue()));
     }
 
     @Test
-    public void testBuilderImmutability_withoutImmutableAnnotation()
-    {
+    public void testBuilderImmutability_withoutImmutableAnnotation() {
         Collection<String> originalCollection = Arrays.asList("String1", "String2");
         Collection<String> collectionToModify = new ArrayList<String>(originalCollection);
 
@@ -82,15 +78,13 @@ public class CollectionImmutabilityTest
     }
 
     @Test
-    public void testBuilderImmutability_nullCollectionWithoutImmutableAnnotation()
-    {
+    public void testBuilderImmutability_nullCollectionWithoutImmutableAnnotation() {
         BuiltObject builtObject = builder.mutableCollectionValue(null).build();
 
         assertThat(builtObject.getMutableCollectionValue(), is(nullValue()));
     }
 
-    private interface Builder
-    {
+    public interface Builder {
         Builder mutableCollectionValue(Collection<String> collection);
 
         Builder immutableCollectionValue(@Immutable Collection<String> collection);
@@ -98,8 +92,7 @@ public class CollectionImmutabilityTest
         BuiltObject build();
     }
 
-    private interface BuiltObject
-    {
+    public interface BuiltObject {
         Collection<String> getMutableCollectionValue();
 
         Collection<String> getImmutableCollectionValue();

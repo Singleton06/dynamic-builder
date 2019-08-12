@@ -8,8 +8,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * Test class to validate that an argument to a builder method can be declared as positive only and it will be enforced.
@@ -20,7 +20,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class MustBePositiveTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test
     public void testIntValue_NotNegative()
@@ -50,14 +50,14 @@ public class MustBePositiveTest
         }
     }
 
-    private interface MustBePositiveObjectBuilder
+    public interface MustBePositiveObjectBuilder
     {
         MustBePositiveObjectBuilder intValue(@Not({ NEGATIVE, ZERO }) int value);
 
         MustBePositiveObject build();
     }
 
-    private interface MustBePositiveObject
+    public interface MustBePositiveObject
     {
         int getIntValue();
     }

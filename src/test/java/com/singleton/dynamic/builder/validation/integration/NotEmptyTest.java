@@ -15,8 +15,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.Not;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
  * <p>
@@ -28,7 +28,7 @@ import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 @SuppressWarnings({ "javadoc", "nls" })
 public class NotEmptyTest
 {
-    private final ProxyBuilderFactory factory = new ProxyBuilderFactory();
+    private final DynamicBuilderFactory factory = DynamicBuilderFactory.getInstance();
 
     @Test
     public void testNotNull_nullStringValueAllowed()
@@ -108,50 +108,50 @@ public class NotEmptyTest
         assertThat(object.getMapValue(), is(map));
     }
 
-    private interface NotEmptyListBuilder
+    public interface NotEmptyListBuilder
     {
         NotEmptyListBuilder listValue(@Not({ EMPTY }) List<Long> value);
 
         NotEmptyListObject build();
     }
 
-    private interface NotEmptyListObject
+    public interface NotEmptyListObject
     {
         List<Long> getListValue();
     }
 
-    private interface NotEmptyCollectionBuilder
+    public interface NotEmptyCollectionBuilder
     {
         NotEmptyCollectionBuilder collectionValue(@Not({ EMPTY }) Collection<Long> value);
 
         NotEmptyCollectionObject build();
     }
 
-    private interface NotEmptyCollectionObject
+    public interface NotEmptyCollectionObject
     {
         Collection<Long> getCollectionValue();
     }
 
-    private interface NotEmptyMapBuilder
+    public interface NotEmptyMapBuilder
     {
         NotEmptyMapBuilder mapValue(@Not({ EMPTY }) Map<Long, Long> value);
 
         NotEmptyMapObject build();
     }
 
-    private interface NotEmptyMapObject
+    public interface NotEmptyMapObject
     {
         Map<Long, Long> getMapValue();
     }
 
-    private interface NotEmptyStringBuilder
+    public interface NotEmptyStringBuilder
     {
         NotEmptyStringBuilder stringValue(@Not({ EMPTY }) String value);
 
         NotEmptyStringBuiltObject build();
     }
 
-    private interface NotEmptyStringBuiltObject
+    public interface NotEmptyStringBuiltObject
     {
         String getStringValue();
     }

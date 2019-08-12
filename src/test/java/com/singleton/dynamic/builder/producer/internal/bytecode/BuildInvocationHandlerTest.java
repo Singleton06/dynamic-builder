@@ -11,8 +11,8 @@ import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.singleton.dynamic.builder.representation.BuilderModel;
-import com.singleton.dynamic.builder.representation.BuilderProperty;
+import com.singleton.dynamic.builder.internal.representation.BuilderModel;
+import com.singleton.dynamic.builder.internal.representation.BuilderProperty;
 import com.singleton.dynamic.builder.validation.NotParameterValidator;
 
 /**
@@ -23,13 +23,11 @@ import com.singleton.dynamic.builder.validation.NotParameterValidator;
  * @author Brandon Callison
  */
 @SuppressWarnings({ "javadoc", "unchecked", "rawtypes", "nls" })
-public class BuildInvocationHandlerTest
-{
+public class BuildInvocationHandlerTest {
     private BuildInvocationHandler invocationHandler;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         BuilderProperty branchesProperty = mock(BuilderProperty.class);
         when(branchesProperty.getName()).thenReturn("branches");
         when(branchesProperty.getType()).thenReturn(int.class);
@@ -40,18 +38,14 @@ public class BuildInvocationHandlerTest
         when(valueProperty.getType()).thenReturn(String.class);
         when(valueProperty.getValidators()).thenReturn(new NotParameterValidator[0]);
 
-        BuilderModel model = mock(BuilderModel.class);
-
-        when(model.getBuilderType()).thenReturn((Class) TreeBuilder.class);
-        when(model.getResultType()).thenReturn((Class) Tree.class);
-        when(model.getProperties()).thenReturn(Arrays.asList(branchesProperty, valueProperty));
+        BuilderModel model = new BuilderModel.Builder().builderType(TreeBuilder.class).resultType(Tree.class)
+                .properties(Arrays.asList(branchesProperty, valueProperty)).build();
 
         invocationHandler = new BuildInvocationHandler(model);
     }
 
     @Test
-    public void testInvoke() throws Throwable
-    {
+    public void testInvoke() throws Throwable {
         TreeBuilder builder = new TreeBuilder();
         builder.branches = 9;
         builder.type = "Birch";
@@ -66,19 +60,16 @@ public class BuildInvocationHandlerTest
     }
 
     @SuppressWarnings("unused")
-    public static class TreeBuilder
-    {
+    public static class TreeBuilder {
         public String type;
         public int branches;
 
-        public Tree build()
-        {
+        public Tree build() {
             return null;
         }
     }
 
-    public interface Tree
-    {
+    public interface Tree {
         String getType();
 
         int getBranches();

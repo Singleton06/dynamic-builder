@@ -8,27 +8,24 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import com.singleton.dynamic.builder.DynamicBuilderFactory;
 import com.singleton.dynamic.builder.annotation.DefaultValue;
-import com.singleton.dynamic.builder.proxy.ProxyBuilderFactory;
 
 /**
- * Test to validate that if builder methods of parameter type {@link Set} is not called then specified default value is
- * used.
+ * Test to validate that if builder methods of parameter type {@link Set} is not
+ * called then specified default value is used.
  *
  * @author Prateek Kansal
  */
 @SuppressWarnings("javadoc")
-public class DefaultValueAnnotationSetTest
-{
+public class DefaultValueAnnotationSetTest {
     @Test
-    public void testDefaultValueAnnotation_forEmptyset()
-    {
-        assertEquals(new HashSet<Object>(), new ProxyBuilderFactory()
+    public void testDefaultValueAnnotation_forEmptyset() {
+        assertEquals(new HashSet<Object>(), DynamicBuilderFactory.getInstance()
                 .createBuilderForClass(DefaultValueSetObjectBuilder.class).intValue(1).build().getSetValue());
     }
 
-    private interface DefaultValueSetObjectBuilder
-    {
+    public interface DefaultValueSetObjectBuilder {
         DefaultValueSetObjectBuilder setValue(@DefaultValue(EMPTY) Set<?> value);
 
         DefaultValueSetObjectBuilder intValue(int value);
@@ -36,8 +33,7 @@ public class DefaultValueAnnotationSetTest
         DefaultValueSetObject build();
     }
 
-    private interface DefaultValueSetObject
-    {
+    public interface DefaultValueSetObject {
         Set<?> getSetValue();
 
         int getIntValue();
